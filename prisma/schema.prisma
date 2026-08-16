@@ -1,0 +1,41 @@
+// Prisma schema — SQLite for v1, easy migration to Postgres later:
+// change provider to "postgresql" and set DATABASE_URL accordingly.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Booking {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Service
+  serviceSlug String // matches content/services.ts slugs
+  serviceName String
+  vehicleType String // sedan | suv | truck | coupe
+  priceQuoted Int // in USD, snapshot of displayed price at booking time
+
+  // Schedule
+  date        String // YYYY-MM-DD
+  timeSlot    String // e.g. "10:00 AM"
+
+  // Customer
+  name        String
+  phone       String
+  email       String
+  address     String? // only for mobile service
+  isMobile    Boolean  @default(false)
+  notes       String?
+
+  status      String   @default("pending") // pending | confirmed | completed | cancelled
+
+  @@index([email, date, serviceSlug])
+  @@index([status])
+  @@index([date])
+}

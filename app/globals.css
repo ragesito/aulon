@@ -1,0 +1,155 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Firefox scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: #daa520 #0a0a0c;
+  }
+  body {
+    @apply bg-ink text-ivory antialiased;
+  }
+  ::selection {
+    @apply bg-gold text-ink;
+  }
+
+  /* Gold scrollbar (WebKit/Chromium) */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0a0a0c;
+    border-left: 1px solid #1c1c21;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #eec95f 0%, #daa520 50%, #a1741b 100%);
+    border-radius: 999px;
+    border: 2px solid #0a0a0c;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #f5d97e 0%, #e6b52e 50%, #b8861f 100%);
+  }
+  ::-webkit-scrollbar-corner {
+    background: #0a0a0c;
+  }
+}
+
+@layer components {
+  /* Gold hairline divider */
+  .gold-line {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-gold/80 to-transparent;
+  }
+
+  /* Gold sheen text (headline accents) — slow metallic shimmer */
+  .text-gold-sheen {
+    @apply bg-gold-sheen bg-clip-text text-transparent;
+    background-size: 200% auto;
+    animation: sheen 7s linear infinite;
+  }
+
+  /* Nav links: gold underline grows in from the left on hover/active */
+  .nav-link {
+    @apply relative text-xs font-semibold uppercase tracking-widest text-ivory-dim transition-colors duration-300 hover:text-gold;
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(90deg, #daa520, transparent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .nav-link:hover::after,
+  .nav-link.active::after {
+    transform: scaleX(1);
+  }
+  .nav-link.active {
+    @apply text-gold;
+  }
+
+  /* Outlined display text (hollow letters, reference-style) */
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 3px rgba(245, 240, 230, 0.95);
+  }
+  @media (max-width: 640px) {
+    .text-outline {
+      -webkit-text-stroke-width: 2px;
+    }
+  }
+
+  /* Fatten solid display text: stroke drawn in the same color as the fill */
+  .text-fat {
+    -webkit-text-stroke: 1.5px currentColor;
+  }
+  /* Fatten gradient (sheen) text: gold stroke over the gradient fill */
+  .text-fat-gold {
+    -webkit-text-stroke: 1.5px #daa520;
+  }
+
+  /* Kicker label above headings */
+  .kicker {
+    @apply text-xs font-semibold uppercase tracking-widest2 text-gold;
+  }
+
+  /* Primary CTA */
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 bg-gold px-8 py-4 text-sm font-bold uppercase tracking-widest text-ink transition-all duration-300 hover:bg-gold-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold;
+  }
+
+  /* Secondary CTA */
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 border border-gold/50 px-8 py-4 text-sm font-bold uppercase tracking-widest text-gold transition-all duration-300 hover:border-gold hover:bg-gold/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold;
+  }
+
+  /* Form controls */
+  .field {
+    @apply w-full border border-ink-line bg-ink-soft px-4 py-3 text-ivory placeholder:text-ivory-dim/50 transition-colors focus:border-gold focus:outline-none;
+  }
+  .field-label {
+    @apply mb-2 block text-xs font-semibold uppercase tracking-widest text-ivory-dim;
+  }
+  .field-error {
+    @apply mt-1 block text-sm text-red-400;
+  }
+}
+
+@layer utilities {
+  /* Reveal-on-scroll: elements start hidden, .revealed animates them in.
+     Content only — backgrounds are always static. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+    .text-gold-sheen,
+    .animate-rise,
+    .animate-header-in,
+    .animate-scroll-cue {
+      animation: none;
+    }
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}

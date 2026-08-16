@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="8 6 50 48">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#eec95f"/>
+      <stop offset="0.5" stop-color="#daa520"/>
+      <stop offset="1" stop-color="#a1741b"/>
+    </linearGradient>
+  </defs>
+  <!-- A monogram -->
+  <path d="M32 12 L48 50 H41.5 L37.8 40.5 H26.2 L22.5 50 H16 Z M32 25.5 L28.3 35 H35.7 Z" fill="url(#g)"/>
+  <!-- star sparkle -->
+  <path d="M48 10 L49.6 14.4 L54 16 L49.6 17.6 L48 22 L46.4 17.6 L42 16 L46.4 14.4 Z" fill="#eec95f"/>
+</svg>
