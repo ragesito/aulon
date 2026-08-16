@@ -9,7 +9,7 @@ const prisma = new PrismaClient();
 function daysFromNow(n: number): string {
   const d = new Date();
   d.setDate(d.getDate() + n);
-  // skip Sundays — business is closed
+  // skip Sundays â€” business is closed
   if (d.getDay() === 0) d.setDate(d.getDate() + 1);
   return d.toISOString().slice(0, 10);
 }
@@ -23,7 +23,7 @@ async function main() {
         serviceSlug: "full-detail",
         serviceName: "Full Detail",
         vehicleType: "suv",
-        priceQuoted: 299,
+        priceQuoted: 199,
         date: daysFromNow(2),
         timeSlot: "9:00 AM",
         name: "Maria Gonzalez",
@@ -39,7 +39,7 @@ async function main() {
         serviceSlug: "odor-treatment",
         serviceName: "Odor Treatment",
         vehicleType: "sedan",
-        priceQuoted: 129,
+        priceQuoted: 89,
         date: daysFromNow(5),
         timeSlot: "8:00 AM",
         name: "David Chen",
@@ -54,7 +54,7 @@ async function main() {
         serviceSlug: "interior-detail",
         serviceName: "Interior Detail",
         vehicleType: "truck",
-        priceQuoted: 209,
+        priceQuoted: 149,
         date: daysFromNow(-3),
         timeSlot: "1:00 PM",
         name: "Robert Miller",
@@ -69,7 +69,7 @@ async function main() {
         serviceSlug: "exterior-detail",
         serviceName: "Exterior Detail",
         vehicleType: "coupe",
-        priceQuoted: 119,
+        priceQuoted: 85,
         date: daysFromNow(1),
         timeSlot: "3:00 PM",
         name: "Jasmine Lee",

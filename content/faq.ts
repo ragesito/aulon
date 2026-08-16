@@ -14,7 +14,7 @@ export interface FaqItem {
 export const faqs: FaqItem[] = [
   {
     q: "How do you remove smoke or pet odor from a car?",
-    a: "Masking sprays don't work; the smell lives in the carpets, headliner and HVAC system. Our odor treatment combines steam sanitation, an enzyme treatment on all fabrics and a professional ozone cycle that reaches inside the vents. Odor treatment at Aulon Detailing starts at $129 for sedans and takes 2 to 4 hours.",
+    a: "Masking sprays don't work; the smell lives in the carpets, headliner and HVAC system. Our odor treatment combines steam sanitation, an enzyme treatment on all fabrics and a professional ozone cycle that reaches inside the vents. Odor treatment at Aulon Detailing starts at $89 for sedans and takes 2 to 4 hours.",
   },
   {
     q: "Do you offer mobile detailing near Melrose Park?",

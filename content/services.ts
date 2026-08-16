@@ -4,8 +4,11 @@
  *  Edit prices/inclusions here. Everything (services page, booking form,
  *  structured data, sitemap) reads from this file.
  *
- *  TODO(owner): ALL PRICES BELOW ARE REALISTIC PLACEHOLDERS.
- *  Confirm every number before launch.
+ *  PRICING NOTES:
+ *  - Basic Detail prices ($45/$55/$65) are the owner's confirmed prices.
+ *  - All other packages were scaled to the same price level using the
+ *    owner's vehicle-size ratios (SUV +22%, truck +44%).
+ *  - TODO(owner): confirm the derived prices (everything except Basic).
  * ─────────────────────────────────────────────────────────────────────────
  */
 
@@ -33,14 +36,33 @@ export interface ServicePackage {
 
 export const services: ServicePackage[] = [
   {
+    slug: "basic-detail",
+    name: "Basic Detail",
+    short: "The essential hand wash, finished like a detail.",
+    description:
+      "Our entry service, done the Aulon way. A careful pH-balanced hand wash inside a full routine: wheels, jambs, glass and a final inspection so nothing leaves half-done.",
+    duration: "1–1.5 hours",
+    pricing: { sedan: 45, coupe: 45, suv: 55, truck: 65 },
+    fromPrice: 45,
+    included: [
+      "Pre-wash & premium hand wash (pH-balanced shampoo)",
+      "Wheels, tires & wheel wells cleaned and protected",
+      "Bug & road grime removal",
+      "Exterior & interior windows, streak-free",
+      "Door jambs cleaned and wiped down",
+      "Towel & air dry",
+      "Final inspection for a flawless finish",
+    ],
+  },
+  {
     slug: "interior-detail",
     name: "Interior Detail",
     short: "Deep-cleaned cabin, restored to delivery-day condition.",
     description:
       "A complete interior reset. Every surface vacuumed, steamed, brushed and protected: carpets, seats, headliner, vents and trim.",
     duration: "2–3 hours",
-    pricing: { sedan: 149, coupe: 149, suv: 189, truck: 209 },
-    fromPrice: 149,
+    pricing: { sedan: 105, coupe: 105, suv: 129, truck: 149 },
+    fromPrice: 105,
     included: [
       "Full interior vacuum incl. trunk",
       "Steam cleaning of carpets & upholstery",
@@ -58,8 +80,8 @@ export const services: ServicePackage[] = [
     description:
       "Meticulous two-bucket hand wash, iron and tar decontamination, wheels and tires dressed, finished with a premium spray sealant.",
     duration: "1.5–2.5 hours",
-    pricing: { sedan: 119, coupe: 119, suv: 149, truck: 169 },
-    fromPrice: 119,
+    pricing: { sedan: 85, coupe: 85, suv: 105, truck: 125 },
+    fromPrice: 85,
     included: [
       "Foam pre-wash & two-bucket hand wash",
       "Iron & tar chemical decontamination",
@@ -77,8 +99,8 @@ export const services: ServicePackage[] = [
     description:
       "Our signature package. The full interior and exterior details combined in a single appointment. The closest thing to a brand-new car.",
     duration: "4–6 hours",
-    pricing: { sedan: 239, coupe: 239, suv: 299, truck: 339 },
-    fromPrice: 239,
+    pricing: { sedan: 165, coupe: 165, suv: 199, truck: 239 },
+    fromPrice: 165,
     included: [
       "Everything in Interior Detail",
       "Everything in Exterior Detail",
@@ -96,8 +118,8 @@ export const services: ServicePackage[] = [
     description:
       "A full-cabin decontamination that eliminates odors instead of covering them. Steam sanitation, enzyme treatment and an ozone cycle reach the vents, carpets and every surface the smell lives in.",
     duration: "2–4 hours",
-    pricing: { sedan: 129, coupe: 129, suv: 159, truck: 179 },
-    fromPrice: 129,
+    pricing: { sedan: 89, coupe: 89, suv: 109, truck: 129 },
+    fromPrice: 89,
     included: [
       "Odor source inspection",
       "Full interior vacuum & steam sanitation",
@@ -115,8 +137,8 @@ export const services: ServicePackage[] = [
     description:
       "The right reset for your paint. A meticulous hand wash, a full clay bar decontamination that pulls out embedded grime, and a durable sealant that locks in gloss and protection for months.",
     duration: "2–3 hours",
-    pricing: { sedan: 99, coupe: 99, suv: 129, truck: 149 },
-    fromPrice: 99,
+    pricing: { sedan: 69, coupe: 69, suv: 85, truck: 99 },
+    fromPrice: 69,
     included: [
       "Foam pre-wash & two-bucket hand wash",
       "Full clay bar decontamination",

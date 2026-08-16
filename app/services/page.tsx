@@ -83,8 +83,7 @@ export default function ServicesPage() {
                         ))}
                       </dl>
                       <p className="mt-3 text-xs text-ivory-dim/60">
-                        {/* TODO(owner): confirm pricing before launch */}
-                        Placeholder pricing. Final quote at confirmation.
+                        Final quote confirmed at booking.
                       </p>
                     </div>
                     <Link href={`/book?service=${s.slug}`} className="btn-gold mt-8 w-full">
