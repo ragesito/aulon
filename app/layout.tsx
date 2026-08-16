@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     template: `%s | ${site.name}`,
   },
   description:
-    "Premium auto detailing in Melrose Park, IL. Interior & exterior details, odor treatment, wash, clay & seal and mobile detailing across the Chicago West suburbs. By appointment only.",
+    "Premium auto detailing in Melrose Park, IL. Interior & exterior details, odor treatment, wash, clay & seal and mobile detailing across the surrounding areas. By appointment only.",
   keywords: [
     "car detailing Melrose Park IL",
     "auto detailing near me Chicago",

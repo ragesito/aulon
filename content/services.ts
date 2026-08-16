@@ -112,6 +112,7 @@ export const services: ServicePackage[] = [
       "Chemical oxidation treatment",
       "Air freshener bars",
     ],
+    note: "Add-on only: the Odor Treatment always requires an Interior Detail (or Full Detail) in the same appointment. It cannot be booked on its own.",
   },
   {
     slug: "wash-clay-seal",

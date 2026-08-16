@@ -10,7 +10,7 @@ import { site } from "@/content/site";
 export const metadata: Metadata = {
   title: "About Our Detailing Studio",
   description:
-    "Aulon Detailing is a Melrose Park, IL detailing studio serving Maywood, Franklin Park, Elmwood Park, Oak Park, River Grove and the greater Chicago West suburbs. One car at a time, done properly.",
+    "Aulon Detailing is a Melrose Park, IL detailing studio serving Maywood, Franklin Park, Elmwood Park, Oak Park, River Grove and the surrounding areas. One car at a time, done properly.",
   alternates: { canonical: "/about" },
 };
 
@@ -67,7 +67,7 @@ export default function AboutPage() {
           <SectionHeading
             kicker="Service Area"
             title="We come to you"
-            sub={`Mobile detailing across the Chicago West suburbs, or drop your car with us in ${site.city}.`}
+            sub={`Mobile detailing across the surrounding areas, or drop your car with us in ${site.city}.`}
           />
           <Reveal className="mx-auto mt-12 max-w-3xl">
             <ul className="flex flex-wrap justify-center gap-3">

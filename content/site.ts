@@ -45,7 +45,7 @@ export const site = {
     "Northlake",
     "River Forest",
   ],
-  serviceAreaBlurb: "Serving Melrose Park and the greater Chicago West suburbs.",
+  serviceAreaBlurb: "Serving Melrose Park and the surrounding areas.",
 
   social: {
     instagram: "https://www.instagram.com/aulondetailing/",

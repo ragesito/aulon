@@ -9,7 +9,7 @@ import { breadcrumbSchema } from "@/lib/schema";
 export const metadata: Metadata = {
   title: "Before & After Detailing Gallery",
   description:
-    "Before and after photos from Aulon Detailing: interior details, exterior details and odor treatments on sedans, SUVs and trucks across Melrose Park and the Chicago West suburbs.",
+    "Before and after photos from Aulon Detailing: interior details, exterior details and odor treatments on sedans, SUVs and trucks across Melrose Park and the surrounding areas.",
   alternates: { canonical: "/gallery" },
 };
 

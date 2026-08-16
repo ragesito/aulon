@@ -22,7 +22,7 @@ export default function FaqPage() {
             as="h1"
             kicker="FAQ"
             title="Everything you're wondering"
-            sub="The questions we get most from drivers around Melrose Park and the West suburbs."
+            sub="The questions we get most from drivers around Melrose Park and the surrounding areas."
           />
           <div className="mt-12 space-y-4">
             {faqs.map((f) => (

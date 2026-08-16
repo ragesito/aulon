@@ -33,7 +33,7 @@ export const gallery: GalleryItem[] = [
   { id: "int-1", category: "interior", src: null, alt: "Deep-cleaned leather interior after a full interior detail on an SUV in Melrose Park IL", label: "Interior Detail · SUV" },
   { id: "ext-1", category: "exterior", src: null, alt: "Glossy black paint after a signature exterior detail on a sedan in Melrose Park IL", label: "Signature Exterior · Sedan" },
   { id: "odo-1", category: "odor", src: null, alt: "Fresh, sanitized cabin after a full odor treatment on a coupe in Melrose Park IL", label: "Odor Treatment · Coupe" },
-  { id: "int-2", category: "interior", src: null, alt: "Steam-cleaned carpets and restored console after an interior detail on a truck, Chicago West suburbs", label: "Interior Detail · Truck" },
+  { id: "int-2", category: "interior", src: null, alt: "Steam-cleaned carpets and restored console after an interior detail on a truck in the surrounding areas", label: "Interior Detail · Truck" },
   { id: "ext-2", category: "exterior", src: null, alt: "Wheels and tires deep-cleaned and dressed after a signature exterior detail on an SUV in Melrose Park IL", label: "Signature Exterior · SUV" },
   { id: "odo-2", category: "odor", src: null, alt: "Steam-sanitized seats and carpets after smoke odor removal on a sedan in Chicago IL", label: "Smoke Odor Removal · Sedan" },
   { id: "int-3", category: "interior", src: null, alt: "Spotless dashboard and vents after interior detailing on a coupe in Melrose Park IL", label: "Interior Detail · Coupe" },

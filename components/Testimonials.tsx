@@ -26,7 +26,7 @@ export default function Testimonials() {
         <SectionHeading
           kicker="Reviews"
           title="What drivers are saying"
-          sub="Real results from real cars across the West suburbs."
+          sub="Real results from real cars across the surrounding areas."
         />
         <ul className="mt-14 grid gap-6 md:grid-cols-3">
           {testimonials.map((t, i) => (

@@ -13,7 +13,7 @@ export default function CtaBand() {
           </p>
           <p className="mt-4 text-ivory-dim">
             Slots fill fast. Lock in your appointment today. We come to you across
-            the Chicago West suburbs.
+            the surrounding areas.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link href="/book" className="btn-gold w-full sm:w-auto">

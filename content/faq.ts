@@ -18,7 +18,7 @@ export const faqs: FaqItem[] = [
   },
   {
     q: "Do you offer mobile detailing near Melrose Park?",
-    a: "Yes. We offer mobile detailing throughout Melrose Park, Maywood, Franklin Park, Elmwood Park, Oak Park, River Grove and the greater Chicago West suburbs. We bring water, power and professional products to your driveway. Just choose mobile service when booking.",
+    a: "Yes. We offer mobile detailing throughout Melrose Park, Maywood, Franklin Park, Elmwood Park, Oak Park, River Grove and the surrounding areas. We bring water, power and professional products to your driveway. Just choose mobile service when booking.",
   },
   {
     q: "How long does a full detail take?",

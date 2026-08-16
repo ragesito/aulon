@@ -10,7 +10,7 @@ import { site } from "@/content/site";
 export const metadata: Metadata = {
   title: "Contact Us for a Quote",
   description:
-    "Contact Aulon Detailing in Melrose Park, IL. Call, email or message us for quotes, availability and mobile detailing across the Chicago West suburbs.",
+    "Contact Aulon Detailing in Melrose Park, IL. Call, email or message us for quotes, availability and mobile detailing across the surrounding areas.",
   alternates: { canonical: "/contact" },
 };
 

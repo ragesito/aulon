@@ -12,14 +12,14 @@ import { services } from "@/content/services";
 export const metadata: Metadata = {
   title: "Premium Car Detailing in Melrose Park, IL",
   description:
-    "Your car, showroom new. Premium auto detailing in Melrose Park, IL: interior & exterior details, odor treatment and mobile detailing across the Chicago West suburbs. Book online.",
+    "Your car, showroom new. Premium auto detailing in Melrose Park, IL: interior & exterior details, odor treatment and mobile detailing across the surrounding areas. Book online.",
   alternates: { canonical: "/" },
 };
 
 const trust = [
   {
     title: "Mobile Service",
-    text: "We come to your driveway across Melrose Park and the West suburbs, water and power included.",
+    text: "We come to your driveway across Melrose Park and the surrounding areas, water and power included.",
     icon: (
       <svg viewBox="0 0 24 24" className="h-8 w-8 stroke-gold" fill="none" strokeWidth="1.5" aria-hidden="true">
         <path d="M3 13l1.5-4.5A2 2 0 0 1 6.4 7h8.2a2 2 0 0 1 1.9 1.5L18 13m-15 0h18v4a1 1 0 0 1-1 1h-1a2 2 0 1 1-4 0H8a2 2 0 1 1-4 0H3a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1z" strokeLinecap="round" strokeLinejoin="round" />

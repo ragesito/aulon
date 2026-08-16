@@ -8,7 +8,7 @@ import { paymentsEnabled } from "@/lib/stripe";
 export const metadata: Metadata = {
   title: "Book Your Detail Online",
   description:
-    "Book car detailing in Melrose Park, IL online. Choose your package, vehicle and time slot. Mobile detailing available across the Chicago West suburbs. No payment required to book.",
+    "Book car detailing in Melrose Park, IL online. Choose your package, vehicle and time slot. Mobile detailing available across the surrounding areas. No payment required to book.",
   alternates: { canonical: "/book" },
 };
 
