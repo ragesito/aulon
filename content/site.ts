@@ -13,9 +13,8 @@ export const site = {
   heroLine: "Your car, showroom new.",
   heroSub: "Premium detailing in Melrose Park, by appointment only.",
 
-  // TODO(owner): confirm real phone number
-  phone: "(708) 555-0134",
-  phoneHref: "tel:+17085550134",
+  phone: "(708) 486-9522",
+  phoneHref: "tel:+17084869522",
   // TODO(owner): confirm real business email
   email: "aulondetailing@gmail.com",
 
