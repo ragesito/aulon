@@ -74,6 +74,8 @@ export const bookingSchema = z
         return dt.getTime() <= max.getTime();
       }, "Please pick a date within the next 90 days"),
     timeSlot: z.enum(TIME_SLOTS),
+    /** Odor Treatment add-on (only valid with an interior service) */
+    addOdor: z.coerce.boolean().default(false),
     name: nameField,
     phone: phoneField,
     email: emailField,

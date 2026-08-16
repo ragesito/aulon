@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
-import type { ServicePackage } from "@/content/services";
+import { bookHref, type ServicePackage } from "@/content/services";
 
 export default function ServiceCard({
   service,
@@ -34,7 +34,7 @@ export default function ServiceCard({
       </p>
       <div className="mt-6 flex gap-3">
         <Link
-          href={`/book?service=${service.slug}`}
+          href={bookHref(service.slug)}
           className="btn-gold flex-1 !px-4 !py-3 !text-xs"
         >
           Book

@@ -5,7 +5,7 @@ import SectionHeading from "@/components/SectionHeading";
 import CtaBand from "@/components/CtaBand";
 import JsonLd from "@/components/JsonLd";
 import { faqSchema, breadcrumbSchema } from "@/lib/schema";
-import { services, vehicleTypes } from "@/content/services";
+import { services, vehicleTypes, bookHref } from "@/content/services";
 import { faqs } from "@/content/faq";
 
 export const metadata: Metadata = {
@@ -85,8 +85,11 @@ export default function ServicesPage() {
                       <p className="mt-3 text-xs text-ivory-dim/60">
                         Final quote confirmed at booking.
                       </p>
+                      {s.note && (
+                        <p className="mt-2 text-xs text-ivory-dim/60">{s.note}</p>
+                      )}
                     </div>
-                    <Link href={`/book?service=${s.slug}`} className="btn-gold mt-8 w-full">
+                    <Link href={bookHref(s.slug)} className="btn-gold mt-8 w-full">
                       Book {s.name}
                     </Link>
                   </div>

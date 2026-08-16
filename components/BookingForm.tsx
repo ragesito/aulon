@@ -6,6 +6,8 @@ import Link from "next/link";
 import {
   services,
   vehicleTypes,
+  getService,
+  ODOR_ADDON_ALLOWED,
   type VehicleType,
 } from "@/content/services";
 import { TIME_SLOTS } from "@/lib/validation";
@@ -36,21 +38,30 @@ function SubmitButton({ depositUsd }: { depositUsd?: number }) {
 
 export default function BookingForm({
   initialService,
+  initialOdor,
   depositUsd,
   paymentCanceled,
 }: {
   initialService?: string;
+  /** Preselect the Odor Treatment add-on */
+  initialOdor?: boolean;
   /** Deposit amount in USD when Stripe payments are enabled; undefined otherwise */
   depositUsd?: number;
   /** True when the user came back from an abandoned Stripe Checkout */
   paymentCanceled?: boolean;
 }) {
-  const validInitial = services.some((s) => s.slug === initialService)
-    ? initialService!
+  // The odor add-on is not bookable standalone; route it through Interior
+  const mappedInitial =
+    initialService === "odor-treatment" ? "interior-detail" : initialService;
+  const validInitial = services.some((s) => s.slug === mappedInitial)
+    ? mappedInitial!
     : "";
 
   const [step, setStep] = useState(validInitial ? 1 : 0);
   const [serviceSlug, setServiceSlug] = useState(validInitial);
+  const [addOdor, setAddOdor] = useState(
+    !!(initialOdor || initialService === "odor-treatment")
+  );
   const [vehicleType, setVehicleType] = useState<VehicleType | "">("");
   const [date, setDate] = useState("");
   const [timeSlot, setTimeSlot] = useState("");
@@ -76,8 +87,16 @@ export default function BookingForm({
     () => services.find((s) => s.slug === serviceSlug),
     [serviceSlug]
   );
+  const odorAllowed = ODOR_ADDON_ALLOWED.includes(serviceSlug);
+  const odorService = getService("odor-treatment");
+  const odorPrice =
+    odorAllowed && addOdor && odorService && vehicleType
+      ? odorService.pricing[vehicleType as VehicleType]
+      : 0;
   const price =
-    service && vehicleType ? service.pricing[vehicleType as VehicleType] : null;
+    service && vehicleType
+      ? service.pricing[vehicleType as VehicleType] + odorPrice
+      : null;
 
   const fieldErrors = result?.fieldErrors ?? {};
 
@@ -170,6 +189,7 @@ export default function BookingForm({
         <input type="hidden" name="vehicleType" value={vehicleType} />
         <input type="hidden" name="date" value={date} />
         <input type="hidden" name="timeSlot" value={timeSlot} />
+        <input type="hidden" name="addOdor" value={odorAllowed && addOdor ? "true" : ""} />
         <input type="hidden" name="startedAt" value={startedAt} />
         {/* Honeypot — hidden from real users */}
         <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
@@ -184,7 +204,7 @@ export default function BookingForm({
           <fieldset>
             <legend className="sr-only">Choose a service package</legend>
             <div className="grid gap-3 sm:grid-cols-2">
-              {services.map((s) => (
+              {services.filter((s) => s.slug !== "odor-treatment").map((s) => (
                 <button
                   key={s.slug}
                   type="button"
@@ -342,12 +362,41 @@ export default function BookingForm({
               {fieldErrors.notes && <span className="field-error">{fieldErrors.notes}</span>}
             </div>
 
+            {/* Odor Treatment add-on (only with interior services) */}
+            {odorAllowed && odorService && (
+              <div className="flex items-start gap-3 border border-ink-line bg-ink-soft p-4">
+                <input
+                  id="bk-odor"
+                  type="checkbox"
+                  checked={addOdor}
+                  onChange={(e) => setAddOdor(e.target.checked)}
+                  className="mt-0.5 h-5 w-5 accent-[#daa520]"
+                />
+                <label htmlFor="bk-odor" className="text-sm text-ivory">
+                  Add Odor Treatment{" "}
+                  <span className="font-bold text-gold">
+                    +${vehicleType ? odorService.pricing[vehicleType as VehicleType] : odorService.fromPrice}
+                  </span>
+                  <span className="block text-xs text-ivory-dim">
+                    Chemical oxidation treatment that removes smoke, pet and
+                    spill odors at the source. Adds 1–2 hours.
+                  </span>
+                </label>
+              </div>
+            )}
+
             {/* Summary */}
             {service && vehicleType && (
               <div className="border border-gold/30 bg-ink-soft p-5 text-sm">
                 <p className="kicker mb-3">Your request</p>
                 <dl className="space-y-1.5 text-ivory-dim">
                   <div className="flex justify-between"><dt>Service</dt><dd className="text-ivory">{service.name}</dd></div>
+                  {odorAllowed && addOdor && odorService && (
+                    <div className="flex justify-between">
+                      <dt>Add-on</dt>
+                      <dd className="text-ivory">Odor Treatment (+${odorService.pricing[vehicleType as VehicleType]})</dd>
+                    </div>
+                  )}
                   <div className="flex justify-between"><dt>Vehicle</dt><dd className="text-ivory">{vehicleTypes.find((v) => v.value === vehicleType)?.label}</dd></div>
                   <div className="flex justify-between"><dt>Date</dt><dd className="text-ivory">{date} · {timeSlot}</dd></div>
                   <div className="flex justify-between border-t border-ink-line pt-2">
@@ -381,6 +430,9 @@ export default function BookingForm({
                     No payment now. We confirm your slot first. Price may adjust for
                     vehicle condition.
                   </p>
+                )}
+                {service.note && (
+                  <p className="mt-2 text-xs text-ivory-dim/70">{service.note}</p>
                 )}
               </div>
             )}

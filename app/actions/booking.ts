@@ -4,7 +4,12 @@ import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { bookingSchema, filledTooFast } from "@/lib/validation";
 import { rateLimit, clientIp } from "@/lib/rate-limit";
-import { getService, vehicleTypes, type VehicleType } from "@/content/services";
+import {
+  getService,
+  vehicleTypes,
+  ODOR_ADDON_ALLOWED,
+  type VehicleType,
+} from "@/content/services";
 import { paymentsEnabled, createDepositSession } from "@/lib/stripe";
 import {
   sendOwnerBookingNotification,
@@ -58,7 +63,16 @@ export async function createBooking(
   const vehicle = data.vehicleType as VehicleType;
   const vehicleLabel =
     vehicleTypes.find((v) => v.value === vehicle)?.label ?? vehicle;
-  const priceQuoted = service.pricing[vehicle];
+
+  // Odor Treatment add-on: only valid on interior services
+  const odorService = getService("odor-treatment");
+  const addOdor =
+    data.addOdor && ODOR_ADDON_ALLOWED.includes(service.slug) && !!odorService;
+  const priceQuoted =
+    service.pricing[vehicle] + (addOdor ? odorService!.pricing[vehicle] : 0);
+  const serviceName = addOdor
+    ? `${service.name} + Odor Treatment`
+    : service.name;
 
   // ── Idempotency: same email + date + service = same booking ─────────
   const existing = await prisma.booking.findFirst({
@@ -82,6 +96,7 @@ export async function createBooking(
       const updated = await prisma.booking.update({
         where: { id: existing.id },
         data: {
+          serviceName,
           vehicleType: vehicle,
           priceQuoted,
           timeSlot: data.timeSlot,
@@ -96,7 +111,7 @@ export async function createBooking(
       const created = await prisma.booking.create({
         data: {
           serviceSlug: service.slug,
-          serviceName: service.name,
+          serviceName,
           vehicleType: vehicle,
           priceQuoted,
           date: data.date,
@@ -119,7 +134,7 @@ export async function createBooking(
   }
 
   const emailData: BookingEmailData = {
-    serviceName: service.name,
+    serviceName,
     vehicleType: vehicleLabel,
     date: data.date,
     timeSlot: data.timeSlot,
@@ -139,7 +154,7 @@ export async function createBooking(
     try {
       const session = await createDepositSession({
         bookingId,
-        serviceName: service.name,
+        serviceName,
         date: data.date,
         timeSlot: data.timeSlot,
         customerEmail: data.email,

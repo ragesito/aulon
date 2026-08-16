@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 export default function BookPage({
   searchParams,
 }: {
-  searchParams: { service?: string; canceled?: string };
+  searchParams: { service?: string; canceled?: string; odor?: string };
 }) {
   const deposit = paymentsEnabled() ? site.booking.depositUsd : undefined;
   return (
@@ -37,6 +37,7 @@ export default function BookPage({
         <div className="mt-12">
           <BookingForm
             initialService={searchParams.service}
+            initialOdor={searchParams.odor === "1"}
             depositUsd={deposit}
             paymentCanceled={searchParams.canceled === "1"}
           />

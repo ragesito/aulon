@@ -32,6 +32,18 @@ export interface ServicePackage {
   fromPrice: number; // lowest price, for "from $X" display
   included: string[];
   featured?: boolean;
+  /** Small caveat shown with the package (e.g. condition surcharges) */
+  note?: string;
+}
+
+/** Services the Odor Treatment add-on can be attached to */
+export const ODOR_ADDON_ALLOWED = ["interior-detail", "full-detail"];
+
+/** Book link for a service; the odor add-on books through Interior Detail */
+export function bookHref(slug: string): string {
+  return slug === "odor-treatment"
+    ? "/book?service=interior-detail&odor=1"
+    : `/book?service=${slug}`;
 }
 
 export const services: ServicePackage[] = [
@@ -59,17 +71,17 @@ export const services: ServicePackage[] = [
     name: "Interior Detail",
     short: "Deep-cleaned cabin, restored to delivery-day condition.",
     description:
-      "A complete interior reset. Every surface vacuumed, brushed and protected: carpets, seats, headliner, vents and trim.",
-    duration: "2–3 hours",
+      "A complete interior reset. Every surface vacuumed, brushed and protected.",
+    duration: "1–2 hours",
     pricing: { sedan: 60, coupe: 60, suv: 75, truck: 90 },
     fromPrice: 60,
     included: [
       "Full interior vacuum incl. trunk",
-      "Leather cleaned & conditioned",
       "Dash, console & trim detailed",
       "Interior glass streak-free",
       "Air vents & crevices brushed out",
     ],
+    note: "Heavily soiled interiors may carry a $10 surcharge, at the detailer's discretion. We always confirm it with you before starting.",
   },
   {
     slug: "full-detail",
@@ -77,7 +89,7 @@ export const services: ServicePackage[] = [
     short: "The complete Aulon treatment, inside and out.",
     description:
       "The complete package. The Signature Exterior Detail and the Interior Detail combined in a single appointment. The closest thing to a brand-new car.",
-    duration: "3–5 hours",
+    duration: "2–4 hours",
     // Price = Signature Exterior Detail + Interior Detail
     pricing: { sedan: 105, coupe: 105, suv: 130, truck: 155 },
     fromPrice: 105,
@@ -94,8 +106,8 @@ export const services: ServicePackage[] = [
     description:
       "A full-cabin decontamination that eliminates odors instead of covering them. A chemical oxidation treatment reaches the vents, carpets and every surface the smell lives in. Always performed together with an Interior Detail service.",
     duration: "1–2 hours",
-    pricing: { sedan: 89, coupe: 89, suv: 109, truck: 129 },
-    fromPrice: 89,
+    pricing: { sedan: 55, coupe: 55, suv: 55, truck: 55 },
+    fromPrice: 55,
     included: [
       "Chemical oxidation treatment",
       "Air freshener bars",
