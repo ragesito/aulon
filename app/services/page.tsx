@@ -11,7 +11,7 @@ import { faqs } from "@/content/faq";
 export const metadata: Metadata = {
   title: "Detailing Services & Pricing in Melrose Park, IL",
   description:
-    "Car detailing packages in Melrose Park, IL: basic details, interior detailing, full details, odor treatment and wash, clay & seal. Transparent pricing for sedans, SUVs and trucks in the Chicago suburbs.",
+    "Car detailing packages in Melrose Park, IL: signature exterior details, interior detailing, full details, odor treatment and wash, clay & seal. Transparent pricing for sedans, SUVs and trucks in the Chicago suburbs.",
   alternates: { canonical: "/services" },
 };
 

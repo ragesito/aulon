@@ -66,8 +66,8 @@ async function main() {
         paymentStatus: "paid",
       },
       {
-        serviceSlug: "basic-detail",
-        serviceName: "Basic Detail",
+        serviceSlug: "signature-exterior-detail",
+        serviceName: "Signature Exterior Detail",
         vehicleType: "coupe",
         priceQuoted: 45,
         date: daysFromNow(1),

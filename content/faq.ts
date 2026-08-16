@@ -22,7 +22,7 @@ export const faqs: FaqItem[] = [
   },
   {
     q: "How long does a full detail take?",
-    a: "A full detail takes 3–5 hours depending on vehicle size and condition. A basic detail is done in about an hour and a half, the odor treatment add-on takes 1 to 2 hours, and a wash, clay and seal is typically done in 2 to 3 hours.",
+    a: "A full detail takes 3–5 hours depending on vehicle size and condition. A signature exterior detail is done in about an hour and a half, the odor treatment add-on takes 1 to 2 hours, and a wash, clay and seal is typically done in 2 to 3 hours.",
   },
   {
     q: "How often should I get my car detailed?",

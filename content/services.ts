@@ -36,11 +36,11 @@ export interface ServicePackage {
 
 export const services: ServicePackage[] = [
   {
-    slug: "basic-detail",
-    name: "Basic Detail",
-    short: "The essential hand wash, finished like a detail.",
+    slug: "signature-exterior-detail",
+    name: "Signature Exterior Detail",
+    short: "The signature hand wash, finished like a detail.",
     description:
-      "Our entry service, done the Aulon way. A careful pH-balanced hand wash inside a full routine: wheels, jambs, glass and a final inspection so nothing leaves half-done.",
+      "Our signature exterior service, done the Aulon way. A careful pH-balanced hand wash inside a full routine: wheels, jambs, glass and a final inspection so nothing leaves half-done.",
     duration: "1–1.5 hours",
     pricing: { sedan: 45, coupe: 45, suv: 55, truck: 65 },
     fromPrice: 45,
@@ -76,13 +76,13 @@ export const services: ServicePackage[] = [
     name: "Full Detail",
     short: "The complete Aulon treatment, inside and out.",
     description:
-      "Our signature package. The Basic Detail and the Interior Detail combined in a single appointment. The closest thing to a brand-new car.",
+      "The complete package. The Signature Exterior Detail and the Interior Detail combined in a single appointment. The closest thing to a brand-new car.",
     duration: "3–5 hours",
-    // Price = Basic Detail + Interior Detail
+    // Price = Signature Exterior Detail + Interior Detail
     pricing: { sedan: 105, coupe: 105, suv: 130, truck: 155 },
     fromPrice: 105,
     included: [
-      "Everything in Basic Detail",
+      "Everything in Signature Exterior Detail",
       "Everything in Interior Detail",
     ],
     featured: true,
