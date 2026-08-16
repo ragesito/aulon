@@ -13,8 +13,8 @@ export interface FaqItem {
 
 export const faqs: FaqItem[] = [
   {
-    q: "How much does ceramic coating cost in Chicago?",
-    a: "Professional ceramic coating in the Chicago area typically runs $600–$1,500 depending on vehicle size and paint condition. At Aulon Detailing in Melrose Park, ceramic coating starts at $699 for sedans and includes full decontamination and a single-stage polish before the coating is applied.",
+    q: "How do you remove smoke or pet odor from a car?",
+    a: "Masking sprays don't work; the smell lives in the carpets, headliner and HVAC system. Our odor treatment combines steam sanitation, an enzyme treatment on all fabrics and a professional ozone cycle that reaches inside the vents. Odor treatment at Aulon Detailing starts at $129 for sedans and takes 2 to 4 hours.",
   },
   {
     q: "Do you offer mobile detailing near Melrose Park?",
@@ -22,18 +22,18 @@ export const faqs: FaqItem[] = [
   },
   {
     q: "How long does a full detail take?",
-    a: "A full interior and exterior detail takes 4–6 hours depending on vehicle size and condition. Ceramic coating and paint correction are typically 1–2 day services because the paint needs to be corrected and cured properly.",
+    a: "A full interior and exterior detail takes 4–6 hours depending on vehicle size and condition. Odor treatment takes 2 to 4 hours, and a wash, clay and seal is typically done in 2 to 3 hours.",
   },
   {
     q: "How often should I get my car detailed?",
     a: "For most daily drivers in the Chicago area we recommend a full detail every 4–6 months, with maintenance washes in between. Winter road salt is hard on paint and carpets, so a post-winter detail in spring is the single most valuable appointment of the year.",
   },
   {
-    q: "What's the difference between paint correction and ceramic coating?",
-    a: "Paint correction removes defects like swirl marks, light scratches and oxidation by machine-polishing the clear coat. Ceramic coating protects the finish afterward with a hard, hydrophobic layer that lasts years. For the best result they're done together: correct first, then coat.",
+    q: "What is a clay bar treatment and does my car need it?",
+    a: "Clay bar treatment pulls embedded contamination out of your paint: rail dust, industrial fallout, tar and overspray that washing can't remove. If the paint feels rough or gritty after a wash, it needs clay. We follow it with a sealant so the freshly cleaned paint stays protected for months.",
   },
   {
     q: "Do I need to pay online to book?",
-    a: "No. Booking is free: you pick a service, date and time, and we confirm your appointment by phone or email. Payment is due after the work is done and you've inspected it. We accept cash and all major cards.",
+    a: "A $10 deposit reserves your slot, paid securely through Stripe when you book. It's not an extra charge: the full $10 goes toward your final price. The deposit is non-refundable if you cancel, but you can reschedule once free with 24 hours notice. The remaining balance is due after the work is done and you've inspected it. We accept cash and all major cards.",
   },
 ];

@@ -12,7 +12,7 @@ import { services } from "@/content/services";
 export const metadata: Metadata = {
   title: "Premium Car Detailing in Melrose Park, IL",
   description:
-    "Your car, showroom new. Premium auto detailing in Melrose Park, IL: interior & exterior details, ceramic coating and mobile detailing across the Chicago West suburbs. Book online.",
+    "Your car, showroom new. Premium auto detailing in Melrose Park, IL: interior & exterior details, odor treatment and mobile detailing across the Chicago West suburbs. Book online.",
   alternates: { canonical: "/" },
 };
 
@@ -86,7 +86,7 @@ export default function HomePage() {
                 showroom
                 <svg
                   viewBox="0 0 24 24"
-                  className="mb-2 ml-3 inline-block h-[0.45em] w-[0.45em] fill-gold"
+                  className="mb-2 ml-3 hidden h-[0.45em] w-[0.45em] fill-gold sm:inline-block"
                   aria-hidden="true"
                 >
                   <path d="M12 1l2.4 7.2L22 10l-7.6 1.8L12 19l-2.4-7.2L2 10l7.6-1.8L12 1z" />
@@ -100,7 +100,7 @@ export default function HomePage() {
               className="mx-auto mt-7 max-w-xl animate-rise text-base leading-relaxed text-ivory/90 sm:text-lg lg:mx-0"
               style={{ animationDelay: "240ms" }}
             >
-              Hand-finished details, ceramic coatings and paint correction.
+              Hand-finished details, odor treatment and lasting paint protection.
               At our studio or <span className="font-semibold text-ivory">right in your driveway</span>.
               By appointment only.
             </p>

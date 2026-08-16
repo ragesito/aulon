@@ -83,22 +83,31 @@ export interface BookingEmailData {
   isMobile: boolean;
   notes?: string;
   priceQuoted: number;
+  depositPaid: boolean;
+  depositUsd?: number;
 }
 
 const row = (k: string, v: string) =>
   `<tr><td style="padding:6px 12px 6px 0;color:#b9b3a6;white-space:nowrap;vertical-align:top;">${k}</td><td style="padding:6px 0;color:#f5f0e6;">${v}</td></tr>`;
 
 function bookingTable(b: BookingEmailData): string {
+  const deposit = b.depositUsd ?? 0;
   return `<table style="width:100%;border-collapse:collapse;font-size:14px;">
     ${row("Service", esc(b.serviceName))}
     ${row("Vehicle", esc(b.vehicleType))}
     ${row("Date", esc(b.date))}
     ${row("Time", esc(b.timeSlot))}
     ${row("Price (quoted)", `$${b.priceQuoted}`)}
+    ${
+      b.depositPaid
+        ? row("Deposit paid", `$${deposit} (applied to your total)`) +
+          row("Balance after service", `$${Math.max(0, b.priceQuoted - deposit)}`)
+        : ""
+    }
     ${row("Name", esc(b.name))}
     ${row("Phone", esc(b.phone))}
     ${row("Email", esc(b.email))}
-    ${b.isMobile ? row("Mobile service at", esc(b.address ?? "")) : row("Location", "Drop-off")}
+    ${row("Service address", esc(b.address ?? ""))}
     ${b.notes ? row("Notes", esc(b.notes)) : ""}
   </table>`;
 }

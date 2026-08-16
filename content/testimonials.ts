@@ -33,7 +33,7 @@ export const testimonials: Testimonial[] = [
     name: "James T.",
     location: "Elmwood Park, IL",
     stars: 5,
-    text: "Got the ceramic coating on my black sedan. Water flies off, and the gloss stops people on the street. Professional from start to finish.",
-    service: "Ceramic Coating",
+    text: "Bought a used car that reeked of cigarettes. After their odor treatment it smells factory-new. I honestly didn't think it was possible.",
+    service: "Odor Treatment",
   },
 ];

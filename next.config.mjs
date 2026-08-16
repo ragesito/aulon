@@ -43,6 +43,9 @@ const securityHeaders = [
 const nextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
+  // Cloudflare Workers: no built-in image optimizer. All current images are
+  // SVG/local placeholders, so serve them as-is.
+  images: { unoptimized: true },
   async headers() {
     return [
       {

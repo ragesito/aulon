@@ -57,6 +57,12 @@ export const site = {
   // Mobile service offered — we come to you within the service area.
   mobileService: true,
 
+  /** Booking deposit, USD. Charged via Stripe to reserve the slot,
+   *  applied to the final price. Non-refundable on cancellation. */
+  booking: {
+    depositUsd: 10,
+  },
+
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
 } as const;
 

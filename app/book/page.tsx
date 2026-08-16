@@ -3,6 +3,7 @@ import BookingForm from "@/components/BookingForm";
 import JsonLd from "@/components/JsonLd";
 import { breadcrumbSchema } from "@/lib/schema";
 import { site } from "@/content/site";
+import { paymentsEnabled } from "@/lib/stripe";
 
 export const metadata: Metadata = {
   title: "Book Your Detail Online",
@@ -14,8 +15,9 @@ export const metadata: Metadata = {
 export default function BookPage({
   searchParams,
 }: {
-  searchParams: { service?: string };
+  searchParams: { service?: string; canceled?: string };
 }) {
+  const deposit = paymentsEnabled() ? site.booking.depositUsd : undefined;
   return (
     <section className="bg-ink">
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
@@ -25,13 +27,19 @@ export default function BookPage({
             Reserve your appointment
           </h1>
           <p className="mt-4 text-ivory-dim">
-            Four quick steps. No payment now: we confirm every slot personally.
+            {deposit
+              ? `Four quick steps. A $${deposit} deposit secures your slot and goes toward your total.`
+              : "Four quick steps. No payment now: we confirm every slot personally."}
           </p>
           <div className="gold-line mx-auto mt-8 max-w-[200px]" />
         </div>
 
         <div className="mt-12">
-          <BookingForm initialService={searchParams.service} />
+          <BookingForm
+            initialService={searchParams.service}
+            depositUsd={deposit}
+            paymentCanceled={searchParams.canceled === "1"}
+          />
         </div>
 
         <p className="mt-10 text-center text-sm text-ivory-dim">

@@ -20,23 +20,30 @@ function todayStr(offsetDays = 0): string {
   return d.toISOString().slice(0, 10);
 }
 
-function SubmitButton() {
+function SubmitButton({ depositUsd }: { depositUsd?: number }) {
   const { pending } = useFormStatus();
+  const label = depositUsd ? `Pay $${depositUsd} & Reserve` : "Request Booking";
   return (
     <button
       type="submit"
       disabled={pending}
       className="btn-gold w-full disabled:cursor-not-allowed disabled:opacity-60"
     >
-      {pending ? "Sending…" : "Request Booking"}
+      {pending ? "One moment…" : label}
     </button>
   );
 }
 
 export default function BookingForm({
   initialService,
+  depositUsd,
+  paymentCanceled,
 }: {
   initialService?: string;
+  /** Deposit amount in USD when Stripe payments are enabled; undefined otherwise */
+  depositUsd?: number;
+  /** True when the user came back from an abandoned Stripe Checkout */
+  paymentCanceled?: boolean;
 }) {
   const validInitial = services.some((s) => s.slug === initialService)
     ? initialService!
@@ -47,7 +54,6 @@ export default function BookingForm({
   const [vehicleType, setVehicleType] = useState<VehicleType | "">("");
   const [date, setDate] = useState("");
   const [timeSlot, setTimeSlot] = useState("");
-  const [isMobile, setIsMobile] = useState(false);
   const [dateError, setDateError] = useState("");
   const [startedAt] = useState(() => Date.now());
 
@@ -58,6 +64,11 @@ export default function BookingForm({
 
   const topRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
+    if (result?.redirectUrl) {
+      // Off to Stripe Checkout for the deposit
+      window.location.assign(result.redirectUrl);
+      return;
+    }
     if (result?.ok) topRef.current?.scrollIntoView({ block: "start" });
   }, [result]);
 
@@ -79,6 +90,17 @@ export default function BookingForm({
     } else {
       setDateError("");
     }
+  }
+
+  if (result?.ok && result.redirectUrl) {
+    return (
+      <div className="border border-gold/40 bg-ink-soft p-10 text-center">
+        <p className="text-lg font-bold text-ivory">Taking you to secure payment…</p>
+        <p className="mt-2 text-sm text-ivory-dim">
+          You&apos;ll be redirected to Stripe to pay the ${depositUsd ?? site.booking.depositUsd} deposit.
+        </p>
+      </div>
+    );
   }
 
   if (result?.ok) {
@@ -107,6 +129,12 @@ export default function BookingForm({
 
   return (
     <div ref={topRef}>
+      {paymentCanceled && (
+        <p className="mb-6 border border-gold/40 bg-gold/5 p-4 text-sm text-ivory">
+          Payment was canceled, so your slot is not reserved yet. Pick up where
+          you left off below whenever you&apos;re ready.
+        </p>
+      )}
       {/* Step indicator */}
       <ol className="flex items-center justify-between gap-1 sm:gap-2" aria-label="Booking steps">
         {STEPS.map((label, i) => (
@@ -282,39 +310,22 @@ export default function BookingForm({
               {fieldErrors.email && <span className="field-error">{fieldErrors.email}</span>}
             </div>
 
-            <div className="flex items-center gap-3 border border-ink-line bg-ink-soft p-4">
+            <div>
+              <label htmlFor="bk-address" className="field-label">Service address</label>
               <input
-                id="bk-mobile"
-                name="isMobile"
-                type="checkbox"
-                value="true"
-                checked={isMobile}
-                onChange={(e) => setIsMobile(e.target.checked)}
-                className="h-5 w-5 accent-[#daa520]"
+                id="bk-address"
+                name="address"
+                autoComplete="street-address"
+                maxLength={200}
+                placeholder="Street, city, ZIP"
+                className="field"
+                required
               />
-              <label htmlFor="bk-mobile" className="text-sm text-ivory">
-                Mobile service: come to my address
-                <span className="block text-xs text-ivory-dim">
-                  {site.serviceAreaBlurb}
-                </span>
-              </label>
+              <span className="mt-1.5 block text-xs text-ivory-dim">
+                We come to you. {site.serviceAreaBlurb}
+              </span>
+              {fieldErrors.address && <span className="field-error">{fieldErrors.address}</span>}
             </div>
-
-            {isMobile && (
-              <div>
-                <label htmlFor="bk-address" className="field-label">Service address</label>
-                <input
-                  id="bk-address"
-                  name="address"
-                  autoComplete="street-address"
-                  maxLength={200}
-                  placeholder="Street, city, ZIP"
-                  className="field"
-                  required
-                />
-                {fieldErrors.address && <span className="field-error">{fieldErrors.address}</span>}
-              </div>
-            )}
 
             <div>
               <label htmlFor="bk-notes" className="field-label">
@@ -343,11 +354,34 @@ export default function BookingForm({
                     <dt className="font-semibold text-ivory">Estimated price</dt>
                     <dd className="font-bold text-gold">${price}</dd>
                   </div>
+                  {depositUsd ? (
+                    <>
+                      <div className="flex justify-between">
+                        <dt>Deposit due now</dt>
+                        <dd className="font-bold text-gold">${depositUsd}</dd>
+                      </div>
+                      <div className="flex justify-between">
+                        <dt>Balance after service</dt>
+                        <dd className="text-ivory">${price !== null ? Math.max(0, price - depositUsd) : ""}</dd>
+                      </div>
+                    </>
+                  ) : null}
                 </dl>
-                <p className="mt-3 text-xs text-ivory-dim/70">
-                  No payment now. We confirm your slot first. Price may adjust for
-                  vehicle condition.
-                </p>
+                {depositUsd ? (
+                  <p className="mt-3 text-xs text-ivory-dim/70">
+                    The ${depositUsd} deposit reserves your slot and is applied to
+                    your total. It is non-refundable if you cancel. Price may
+                    adjust for vehicle condition. By booking you agree to our{" "}
+                    <Link href="/terms" className="text-gold underline-offset-2 hover:underline">
+                      booking terms
+                    </Link>.
+                  </p>
+                ) : (
+                  <p className="mt-3 text-xs text-ivory-dim/70">
+                    No payment now. We confirm your slot first. Price may adjust for
+                    vehicle condition.
+                  </p>
+                )}
               </div>
             )}
 
@@ -357,7 +391,7 @@ export default function BookingForm({
               </p>
             )}
 
-            <SubmitButton />
+            <SubmitButton depositUsd={depositUsd} />
           </div>
         )}
 

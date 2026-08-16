@@ -15,7 +15,7 @@ export function localBusinessSchema() {
     url: site.url,
     telephone: site.phone,
     email: site.email,
-    image: `${site.url}/opengraph-image`,
+    image: `${site.url}/og.png`,
     logo: `${site.url}/logo/aulon.svg`,
     priceRange: "$$",
     address: {

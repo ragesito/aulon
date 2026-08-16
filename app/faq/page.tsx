@@ -7,9 +7,9 @@ import { faqSchema, breadcrumbSchema } from "@/lib/schema";
 import { faqs } from "@/content/faq";
 
 export const metadata: Metadata = {
-  title: "Detailing & Ceramic Coating FAQ",
+  title: "Detailing & Odor Removal FAQ",
   description:
-    "How much does ceramic coating cost in Chicago? How long does a full detail take? Do you offer mobile detailing near Melrose Park? Straight answers from Aulon Detailing.",
+    "How do you remove smoke smell from a car? How long does a full detail take? Do you offer mobile detailing near Melrose Park? Straight answers from Aulon Detailing.",
   alternates: { canonical: "/faq" },
 };
 

@@ -77,14 +77,13 @@ export const bookingSchema = z
     name: nameField,
     phone: phoneField,
     email: emailField,
-    isMobile: z.coerce.boolean(),
-    address: z.string().trim().max(200, "Address is too long").optional().or(z.literal("")),
+    address: z
+      .string()
+      .trim()
+      .min(8, "Please enter the address where we should come")
+      .max(200, "Address is too long"),
     notes: z.string().trim().max(1000, "Notes are too long").optional().or(z.literal("")),
     ...antiSpam,
-  })
-  .refine((data) => !data.isMobile || (data.address && data.address.length >= 8), {
-    message: "Please enter the address where we should come",
-    path: ["address"],
   });
 
 export type BookingInput = z.infer<typeof bookingSchema>;

@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/about", priority: 0.6, freq: "monthly" },
     { path: "/faq", priority: 0.6, freq: "monthly" },
     { path: "/contact", priority: 0.6, freq: "monthly" },
+    { path: "/terms", priority: 0.3, freq: "monthly" },
   ];
 
   return routes.map((r) => ({

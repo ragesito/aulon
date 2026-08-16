@@ -29,11 +29,11 @@ export const metadata: Metadata = {
     template: `%s | ${site.name}`,
   },
   description:
-    "Premium auto detailing in Melrose Park, IL. Interior & exterior details, ceramic coating, paint correction and mobile detailing across the Chicago West suburbs. By appointment only.",
+    "Premium auto detailing in Melrose Park, IL. Interior & exterior details, odor treatment, wash, clay & seal and mobile detailing across the Chicago West suburbs. By appointment only.",
   keywords: [
     "car detailing Melrose Park IL",
     "auto detailing near me Chicago",
-    "ceramic coating Melrose Park",
+    "car odor removal Melrose Park",
     "interior detailing Chicago suburbs",
     "mobile detailing Melrose Park",
   ],
@@ -45,12 +45,14 @@ export const metadata: Metadata = {
     title: `${site.name} | Premium Car Detailing in Melrose Park, IL`,
     description:
       "Your car, showroom new. Premium detailing in Melrose Park, by appointment only.",
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: `${site.name} brand card` }],
   },
   twitter: {
     card: "summary_large_image",
     title: `${site.name} | Premium Car Detailing in Melrose Park, IL`,
     description:
       "Your car, showroom new. Premium detailing in Melrose Park, by appointment only.",
+    images: ["/og.png"],
   },
   robots: { index: true, follow: true },
 };

@@ -2,7 +2,8 @@
 // change provider to "postgresql" and set DATABASE_URL accordingly.
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
@@ -34,6 +35,11 @@ model Booking {
   notes       String?
 
   status      String   @default("pending") // pending | confirmed | completed | cancelled
+
+  // Deposit payment (Stripe Checkout)
+  paymentStatus   String  @default("unpaid") // unpaid | paid | waived | refunded
+  stripeSessionId String? @unique
+  depositUsd      Int     @default(10)
 
   @@index([email, date, serviceSlug])
   @@index([status])

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
-import { updateBookingStatus } from "@/app/actions/admin";
+import { updateBookingStatus, rescheduleBooking } from "@/app/actions/admin";
 import { vehicleTypes } from "@/content/services";
+import { TIME_SLOTS } from "@/lib/validation";
 
 export const metadata: Metadata = {
   title: "Admin Bookings",
@@ -54,13 +55,14 @@ export default async function AdminPage() {
                 <th className="px-4 py-3 font-semibold">Customer</th>
                 <th className="px-4 py-3 font-semibold">Location</th>
                 <th className="px-4 py-3 font-semibold">Price</th>
+                <th className="px-4 py-3 font-semibold">Deposit</th>
                 <th className="px-4 py-3 font-semibold">Status</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-ink-line">
               {bookings.length === 0 && (
                 <tr>
-                  <td colSpan={7} className="px-4 py-10 text-center text-ivory-dim">
+                  <td colSpan={8} className="px-4 py-10 text-center text-ivory-dim">
                     No bookings yet.
                   </td>
                 </tr>
@@ -68,8 +70,37 @@ export default async function AdminPage() {
               {bookings.map((b) => (
                 <tr key={b.id} className="align-top hover:bg-ink-soft/60">
                   <td className="px-4 py-3">
-                    <span className="font-semibold text-ivory">{b.date}</span>
-                    <span className="block text-xs text-ivory-dim">{b.timeSlot}</span>
+                    {/* Reschedule: deposit stays with the booking; customer gets an email */}
+                    <form action={rescheduleBooking} className="space-y-1.5">
+                      <input type="hidden" name="id" value={b.id} />
+                      <input
+                        type="date"
+                        name="date"
+                        defaultValue={b.date}
+                        required
+                        className="block w-[150px] border border-ink-line bg-ink px-2 py-1 text-xs text-ivory [color-scheme:dark]"
+                      />
+                      <div className="flex items-center gap-1.5">
+                        <select
+                          name="timeSlot"
+                          defaultValue={b.timeSlot}
+                          className="border border-ink-line bg-ink px-2 py-1 text-xs text-ivory"
+                        >
+                          {TIME_SLOTS.map((t) => (
+                            <option key={t} value={t}>
+                              {t}
+                            </option>
+                          ))}
+                        </select>
+                        <button
+                          type="submit"
+                          title="Reschedule and email the customer"
+                          className="border border-gold/50 px-2 py-1 text-[10px] font-bold uppercase text-gold hover:bg-gold/10"
+                        >
+                          Move
+                        </button>
+                      </div>
+                    </form>
                   </td>
                   <td className="px-4 py-3 text-ivory">{b.serviceName}</td>
                   <td className="px-4 py-3 text-ivory-dim">
@@ -96,6 +127,21 @@ export default async function AdminPage() {
                     )}
                   </td>
                   <td className="px-4 py-3 font-semibold text-gold">${b.priceQuoted}</td>
+                  <td className="px-4 py-3">
+                    <span
+                      className={`border px-2 py-1 text-[10px] font-bold uppercase tracking-wider ${
+                        b.paymentStatus === "paid"
+                          ? "border-green-500/50 text-green-400"
+                          : b.paymentStatus === "waived"
+                            ? "border-ink-line text-ivory-dim"
+                            : b.paymentStatus === "refunded"
+                              ? "border-red-500/50 text-red-400"
+                              : "border-yellow-500/50 text-yellow-400"
+                      }`}
+                    >
+                      {b.paymentStatus}
+                    </span>
+                  </td>
                   <td className="px-4 py-3">
                     <form action={updateBookingStatus} className="flex items-center gap-2">
                       <input type="hidden" name="id" value={b.id} />
