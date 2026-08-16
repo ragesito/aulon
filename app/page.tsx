@@ -133,7 +133,7 @@ export default function HomePage() {
               className="mt-12 flex animate-rise flex-col items-center gap-3 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-x-8 lg:justify-start"
               style={{ animationDelay: "480ms" }}
             >
-              {["Fully insured", "We come to you", "Premium products only"].map(
+              {["One car at a time", "We come to you", "Premium products only"].map(
                 (item) => (
                   <li
                     key={item}
