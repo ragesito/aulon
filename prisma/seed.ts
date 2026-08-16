@@ -66,10 +66,10 @@ async function main() {
         paymentStatus: "paid",
       },
       {
-        serviceSlug: "exterior-detail",
-        serviceName: "Exterior Detail",
+        serviceSlug: "basic-detail",
+        serviceName: "Basic Detail",
         vehicleType: "coupe",
-        priceQuoted: 85,
+        priceQuoted: 45,
         date: daysFromNow(1),
         timeSlot: "3:00 PM",
         name: "Jasmine Lee",

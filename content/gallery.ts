@@ -31,12 +31,12 @@ export const galleryCategories: { value: GalleryCategory | "all"; label: string 
 
 export const gallery: GalleryItem[] = [
   { id: "int-1", category: "interior", src: null, alt: "Deep-cleaned leather interior after a full interior detail on an SUV in Melrose Park IL", label: "Interior Detail · SUV" },
-  { id: "ext-1", category: "exterior", src: null, alt: "Glossy black paint after an exterior detail and sealant on a sedan in Melrose Park IL", label: "Exterior Detail · Sedan" },
+  { id: "ext-1", category: "exterior", src: null, alt: "Glossy black paint after a basic detail and sealant on a sedan in Melrose Park IL", label: "Basic Detail · Sedan" },
   { id: "odo-1", category: "odor", src: null, alt: "Fresh, sanitized cabin after a full odor treatment on a coupe in Melrose Park IL", label: "Odor Treatment · Coupe" },
   { id: "int-2", category: "interior", src: null, alt: "Steam-cleaned carpets and restored console after an interior detail on a truck, Chicago West suburbs", label: "Interior Detail · Truck" },
-  { id: "ext-2", category: "exterior", src: null, alt: "Wheels and tires deep-cleaned and dressed after an exterior detail on an SUV in Melrose Park IL", label: "Exterior Detail · SUV" },
+  { id: "ext-2", category: "exterior", src: null, alt: "Wheels and tires deep-cleaned and dressed after a basic detail on an SUV in Melrose Park IL", label: "Basic Detail · SUV" },
   { id: "odo-2", category: "odor", src: null, alt: "Steam-sanitized seats and carpets after smoke odor removal on a sedan in Chicago IL", label: "Smoke Odor Removal · Sedan" },
   { id: "int-3", category: "interior", src: null, alt: "Spotless dashboard and vents after interior detailing on a coupe in Melrose Park IL", label: "Interior Detail · Coupe" },
-  { id: "ext-3", category: "exterior", src: null, alt: "Paint decontaminated and sealed after an exterior detail on a truck in Franklin Park IL", label: "Exterior Detail · Truck" },
+  { id: "ext-3", category: "exterior", src: null, alt: "Paint decontaminated and sealed after a wash, clay and seal on a truck in Franklin Park IL", label: "Wash, Clay & Seal · Truck" },
   { id: "odo-3", category: "odor", src: null, alt: "Ozone treatment in progress inside an SUV cabin, pet odor removal in the Chicago suburbs", label: "Pet Odor Removal · SUV" },
 ];

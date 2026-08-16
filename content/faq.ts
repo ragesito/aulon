@@ -14,7 +14,7 @@ export interface FaqItem {
 export const faqs: FaqItem[] = [
   {
     q: "How do you remove smoke or pet odor from a car?",
-    a: "Masking sprays don't work; the smell lives in the carpets, headliner and HVAC system. Our odor treatment combines steam sanitation, an enzyme treatment on all fabrics and a professional ozone cycle that reaches inside the vents. Odor treatment at Aulon Detailing starts at $89 for sedans and takes 2 to 4 hours.",
+    a: "Masking sprays don't work; the smell lives in the carpets, headliner and HVAC system. Our odor treatment uses a chemical oxidation treatment that reaches inside the vents and every fabric, and it's always performed together with an Interior Detail so the source gets removed, not covered. The add-on starts at $89 for sedans and takes 1 to 2 hours.",
   },
   {
     q: "Do you offer mobile detailing near Melrose Park?",
@@ -22,7 +22,7 @@ export const faqs: FaqItem[] = [
   },
   {
     q: "How long does a full detail take?",
-    a: "A full interior and exterior detail takes 4–6 hours depending on vehicle size and condition. Odor treatment takes 2 to 4 hours, and a wash, clay and seal is typically done in 2 to 3 hours.",
+    a: "A full detail takes 3–5 hours depending on vehicle size and condition. A basic detail is done in about an hour and a half, the odor treatment add-on takes 1 to 2 hours, and a wash, clay and seal is typically done in 2 to 3 hours.",
   },
   {
     q: "How often should I get my car detailed?",
