@@ -64,7 +64,7 @@ function StatusForm({ b, compact = false }: { b: BookingRow; compact?: boolean }
 
 function RescheduleForm({ b, compact = false }: { b: BookingRow; compact?: boolean }) {
   return (
-    <form action={rescheduleBooking} className={compact ? "space-y-1.5" : "flex items-center gap-2"}>
+    <form action={rescheduleBooking} className={compact ? "space-y-1.5" : "flex flex-wrap items-center gap-2"}>
       <input type="hidden" name="id" value={b.id} />
       <input
         type="date"
