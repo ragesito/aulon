@@ -17,6 +17,26 @@ export const TIME_SLOTS = [
   "4:00 PM",
 ] as const;
 
+
+/** Convert a slot label like "1:00 PM" to a 24h hour number (13). */
+export function slotHour(slot: string): number {
+  const m = /^(\d{1,2}):00\s*(AM|PM)$/i.exec(slot.trim());
+  if (!m) return NaN;
+  let h = Number(m[1]) % 12;
+  if (/pm/i.test(m[2])) h += 12;
+  return h;
+}
+
+/** A slot conflicts when an existing booking sits closer than `gap` hours. */
+export function slotConflicts(slot: string, takenSlots: string[], gap: number): boolean {
+  const h = slotHour(slot);
+  if (Number.isNaN(h)) return false;
+  return takenSlots.some((t) => {
+    const th = slotHour(t);
+    return !Number.isNaN(th) && Math.abs(th - h) < gap;
+  });
+}
+
 const nameField = z
   .string()
   .trim()

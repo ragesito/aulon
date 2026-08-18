@@ -60,6 +60,10 @@ export const site = {
    *  applied to the final price. Non-refundable on cancellation. */
   booking: {
     depositUsd: 10,
+    /** Minimum hours between two appointments on the same day.
+     *  Gives the detailer time to finish and travel to the next job.
+     *  TODO(owner): raise to 3 if jobs regularly run long. */
+    minGapHours: 2,
   },
 
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",

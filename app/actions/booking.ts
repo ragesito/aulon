@@ -2,7 +2,7 @@
 
 import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
-import { bookingSchema, filledTooFast } from "@/lib/validation";
+import { bookingSchema, filledTooFast, slotConflicts } from "@/lib/validation";
 import { rateLimit, clientIp } from "@/lib/rate-limit";
 import {
   getService,
@@ -11,6 +11,7 @@ import {
   type VehicleType,
 } from "@/content/services";
 import { paymentsEnabled, createDepositSession } from "@/lib/stripe";
+import { site } from "@/content/site";
 import {
   sendOwnerBookingNotification,
   sendCustomerConfirmation,
@@ -73,6 +74,23 @@ export async function createBooking(
   const serviceName = addOdor
     ? `${service.name} + Odor Treatment`
     : service.name;
+
+  // ── Slot availability: keep a minimum gap between same-day jobs ─────
+  const sameDay = await prisma.booking.findMany({
+    where: { date: data.date, status: { not: "cancelled" } },
+    select: { timeSlot: true, email: true },
+  });
+  const takenByOthers = sameDay
+    .filter((b) => b.email !== data.email)
+    .map((b) => b.timeSlot);
+  if (slotConflicts(data.timeSlot, takenByOthers, site.booking.minGapHours)) {
+    return {
+      ok: false,
+      error:
+        "That time was just taken. Please pick another slot — we keep a gap between appointments.",
+      fieldErrors: { timeSlot: "No longer available" },
+    };
+  }
 
   // ── Idempotency: same email + date + service = same booking ─────────
   const existing = await prisma.booking.findFirst({

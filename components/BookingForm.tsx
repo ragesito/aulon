@@ -10,9 +10,10 @@ import {
   ODOR_ADDON_ALLOWED,
   type VehicleType,
 } from "@/content/services";
-import { TIME_SLOTS } from "@/lib/validation";
+import { TIME_SLOTS, slotConflicts } from "@/lib/validation";
 import { createBooking, type BookingResult } from "@/app/actions/booking";
 import { site } from "@/content/site";
+import { getTakenSlots } from "@/app/actions/availability";
 
 const STEPS = ["Service", "Vehicle", "Date & Time", "Your Details"] as const;
 
@@ -66,6 +67,8 @@ export default function BookingForm({
   const [date, setDate] = useState("");
   const [timeSlot, setTimeSlot] = useState("");
   const [dateError, setDateError] = useState("");
+  const [takenSlots, setTakenSlots] = useState<string[]>([]);
+  const [loadingSlots, setLoadingSlots] = useState(false);
   const [startedAt] = useState(() => Date.now());
 
   const [result, formAction] = useFormState<BookingResult | null, FormData>(
@@ -82,6 +85,38 @@ export default function BookingForm({
     }
     if (result?.ok) topRef.current?.scrollIntoView({ block: "start" });
   }, [result]);
+
+  // Load which slots are already taken for the chosen date
+  useEffect(() => {
+    if (!date || dateError) {
+      setTakenSlots([]);
+      return;
+    }
+    let active = true;
+    setLoadingSlots(true);
+    getTakenSlots(date)
+      .then((slots) => {
+        if (active) setTakenSlots(slots);
+      })
+      .catch(() => {
+        if (active) setTakenSlots([]);
+      })
+      .finally(() => {
+        if (active) setLoadingSlots(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, [date, dateError]);
+
+  const isSlotBlocked = (slot: string) =>
+    slotConflicts(slot, takenSlots, site.booking.minGapHours);
+
+  // Drop a selected slot that became unavailable
+  useEffect(() => {
+    if (timeSlot && isSlotBlocked(timeSlot)) setTimeSlot("");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [takenSlots]);
 
   const service = useMemo(
     () => services.find((s) => s.slug === serviceSlug),
@@ -280,22 +315,45 @@ export default function BookingForm({
               )}
             </div>
             <div>
-              <span className="field-label">Time slot (8 AM – 6 PM)</span>
+              <span className="field-label">
+                Time slot (8 AM – 6 PM)
+                {loadingSlots && (
+                  <span className="ml-2 normal-case tracking-normal text-ivory-dim/70">
+                    checking availability…
+                  </span>
+                )}
+              </span>
               <div className="grid grid-cols-3 gap-2">
-                {TIME_SLOTS.map((t) => (
-                  <button
-                    key={t}
-                    type="button"
-                    onClick={() => setTimeSlot(t)}
-                    aria-pressed={timeSlot === t}
-                    className={`border py-3 text-sm transition-all duration-200 hover:border-gold ${
-                      timeSlot === t ? "border-gold bg-gold text-ink font-bold" : "border-ink-line text-ivory"
-                    }`}
-                  >
-                    {t}
-                  </button>
-                ))}
+                {TIME_SLOTS.map((t) => {
+                  const blocked = !!date && !dateError && isSlotBlocked(t);
+                  return (
+                    <button
+                      key={t}
+                      type="button"
+                      disabled={blocked}
+                      title={blocked ? "Not available — too close to another appointment" : undefined}
+                      onClick={() => setTimeSlot(t)}
+                      aria-pressed={timeSlot === t}
+                      className={`border py-3 text-sm transition-all duration-200 ${
+                        blocked
+                          ? "cursor-not-allowed border-ink-line/60 text-ivory-dim/30 line-through"
+                          : timeSlot === t
+                            ? "border-gold bg-gold font-bold text-ink"
+                            : "border-ink-line text-ivory hover:border-gold"
+                      }`}
+                    >
+                      {t}
+                    </button>
+                  );
+                })}
               </div>
+              {date && !dateError && takenSlots.length > 0 && (
+                <span className="mt-2 block text-xs text-ivory-dim">
+                  Crossed-out times are unavailable: we keep{" "}
+                  {site.booking.minGapHours} hours between appointments so every
+                  car gets finished properly.
+                </span>
+              )}
               {fieldErrors.timeSlot && <span className="field-error">{fieldErrors.timeSlot}</span>}
             </div>
             <button
