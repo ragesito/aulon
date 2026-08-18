@@ -15,8 +15,8 @@ export const site = {
 
   phone: "(708) 486-9522",
   phoneHref: "tel:+17084869522",
-  // TODO(owner): confirm real business email
-  email: "aulondetailing@gmail.com",
+  // Business email (Google Workspace alias delivered to the owner inbox)
+  email: "info@aulondetailing.com",
 
   city: "Melrose Park",
   state: "IL",
