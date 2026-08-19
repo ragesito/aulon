@@ -5,7 +5,8 @@ import SectionHeading from "@/components/SectionHeading";
 import CtaBand from "@/components/CtaBand";
 import JsonLd from "@/components/JsonLd";
 import { faqSchema, breadcrumbSchema } from "@/lib/schema";
-import { regularServices, specialServices, vehicleTypes, bookHref } from "@/content/services";
+import ServicesView from "@/components/ServicesView";
+import { specialServices, bookHref } from "@/content/services";
 import { faqs } from "@/content/faq";
 
 export const metadata: Metadata = {
@@ -27,76 +28,7 @@ export default function ServicesPage() {
             sub="Every package includes premium products and our no-shortcuts standard. Prices vary by vehicle size. Final quote confirmed at booking."
           />
 
-          {/* TODO(owner): all prices are placeholders — confirm in content/services.ts */}
-          <div className="mt-16 space-y-16">
-            {regularServices().map((s, idx) => (
-              <Reveal
-                as="article"
-                key={s.slug}
-                className="scroll-mt-28 border border-ink-line bg-ink-soft"
-              >
-                <div id={s.slug} className="grid gap-8 p-8 sm:p-10 lg:grid-cols-[1.2fr_1fr] lg:gap-14">
-                  <div>
-                    <div className="flex flex-wrap items-center gap-3">
-                      <span className="text-xs font-bold text-gold/60">
-                        {String(idx + 1).padStart(2, "0")}
-                      </span>
-                      <h2 className="text-2xl font-bold text-ivory sm:text-3xl">{s.name}</h2>
-                      {s.featured && (
-                        <span className="bg-gold px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-ink">
-                          Most Popular
-                        </span>
-                      )}
-                    </div>
-                    <p className="mt-4 leading-relaxed text-ivory-dim">{s.description}</p>
-                    <p className="mt-3 text-xs uppercase tracking-widest text-ivory-dim/60">
-                      Duration: {s.duration}
-                    </p>
-
-                    <h3 className="kicker mt-8">What&apos;s included</h3>
-                    <ul className="mt-4 grid gap-2.5 sm:grid-cols-2">
-                      {s.included.map((item) => (
-                        <li key={item} className="flex items-start gap-2.5 text-sm text-ivory">
-                          <svg viewBox="0 0 20 20" className="mt-0.5 h-4 w-4 shrink-0 fill-gold" aria-hidden="true">
-                            <path d="M7.6 13.2L4.4 10l-1.3 1.3 4.5 4.5 9.3-9.3-1.3-1.3z" />
-                          </svg>
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="flex flex-col justify-between border-t border-ink-line pt-8 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
-                    <div>
-                      <h3 className="kicker">Pricing by vehicle</h3>
-                      <dl className="mt-4 space-y-3">
-                        {vehicleTypes.map((v) => (
-                          <div
-                            key={v.value}
-                            className="flex items-baseline justify-between border-b border-ink-line pb-2.5"
-                          >
-                            <dt className="text-sm text-ivory-dim">{v.label}</dt>
-                            <dd className="text-lg font-bold text-gold">
-                              ${s.pricing[v.value]}
-                            </dd>
-                          </div>
-                        ))}
-                      </dl>
-                      <p className="mt-3 text-xs text-ivory-dim/60">
-                        Final quote confirmed at booking.
-                      </p>
-                      {s.note && (
-                        <p className="mt-2 text-xs text-ivory-dim/60">{s.note}</p>
-                      )}
-                    </div>
-                    <Link href={bookHref(s.slug)} className="btn-gold mt-8 w-full">
-                      Book {s.name}
-                    </Link>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
+          <ServicesView />
         </div>
       </section>
 
