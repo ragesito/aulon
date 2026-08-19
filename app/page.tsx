@@ -180,22 +180,13 @@ export default function HomePage() {
             {regularServices().map((s, i) => (
               <ServiceCard key={s.slug} service={s} delay={i * 100} />
             ))}
-            <Reveal
-              delay={regularServices().length * 100}
-              className="flex flex-col items-center justify-center border border-dashed border-gold/30 p-8 text-center"
-            >
-              <p className="kicker">Special Services</p>
-              <p className="mt-3 text-lg font-bold text-ivory">
-                {specialServices().map((s) => s.name).join(" · ")}
-              </p>
-              <p className="mt-2 text-sm text-ivory-dim">
-                Add-ons for the hard stuff: stubborn smells and sun-faded trim.
-                Added to any package.
-              </p>
-              <Link href="/services#odor-treatment" className="btn-outline mt-6 !px-6 !py-3 !text-xs">
-                See Add-ons
-              </Link>
-            </Reveal>
+            {specialServices().map((s, i) => (
+              <ServiceCard
+                key={s.slug}
+                service={s}
+                delay={(regularServices().length + i) * 100}
+              />
+            ))}
           </div>
         </div>
       </section>
