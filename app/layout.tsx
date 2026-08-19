@@ -45,14 +45,14 @@ export const metadata: Metadata = {
     title: `${site.name} | Premium Car Detailing in Melrose Park, IL`,
     description:
       "Your car, showroom new. Premium detailing in Melrose Park, by appointment only.",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: `${site.name} brand card` }],
+    images: [{ url: "/og.png?v=2", width: 1200, height: 630, alt: `${site.name} brand card` }],
   },
   twitter: {
     card: "summary_large_image",
     title: `${site.name} | Premium Car Detailing in Melrose Park, IL`,
     description:
       "Your car, showroom new. Premium detailing in Melrose Park, by appointment only.",
-    images: ["/og.png"],
+    images: ["/og.png?v=2"],
   },
   robots: { index: true, follow: true },
 };
