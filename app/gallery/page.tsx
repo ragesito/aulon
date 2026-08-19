@@ -17,7 +17,7 @@ export default function GalleryPage() {
   return (
     <>
       <section className="bg-ink">
-        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+        <div className="mx-auto max-w-7xl px-4 pb-20 pt-10 sm:px-6 lg:px-8 lg:pb-28 lg:pt-14">
           <SectionHeading
             as="h1"
             kicker="Gallery"

@@ -20,7 +20,7 @@ export default function BookPage({
   const deposit = paymentsEnabled() ? site.booking.depositUsd : undefined;
   return (
     <section className="bg-ink">
-      <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+      <div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:px-8 lg:pb-24 lg:pt-14">
         <div className="text-center">
           <p className="kicker">Booking</p>
           <h1 className="mt-3 text-3xl font-bold tracking-tight text-ivory sm:text-4xl">
