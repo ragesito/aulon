@@ -21,6 +21,7 @@ export const vehicleTypes: { value: VehicleType; label: string }[] = [
   { value: "truck", label: "Truck / Van" },
 ];
 
+
 export interface ServicePackage {
   slug: string;
   name: string;
@@ -34,16 +35,34 @@ export interface ServicePackage {
   featured?: boolean;
   /** Small caveat shown with the package (e.g. condition surcharges) */
   note?: string;
+  /** Shown in the "Special Services" section instead of the main list */
+  special?: boolean;
+  /** Base service slugs this can be added to (special services only) */
+  addOnFor?: string[];
 }
 
-/** Services the Odor Treatment add-on can be attached to */
-export const ODOR_ADDON_ALLOWED = ["interior-detail", "full-detail"];
+/** The four core packages, shown in the main services list */
+export function regularServices(): ServicePackage[] {
+  return services.filter((s) => !s.special);
+}
 
-/** Book link for a service; the odor add-on books through Interior Detail */
+/** Add-on services, shown in the "Special Services" section */
+export function specialServices(): ServicePackage[] {
+  return services.filter((s) => s.special);
+}
+
+/** Add-ons that can be attached to a given base service */
+export function addOnsFor(baseSlug: string): ServicePackage[] {
+  return specialServices().filter((s) => s.addOnFor?.includes(baseSlug));
+}
+
+/** Book link: special services book through a base service with the add-on preselected */
 export function bookHref(slug: string): string {
-  return slug === "odor-treatment"
-    ? "/book?service=interior-detail&odor=1"
-    : `/book?service=${slug}`;
+  const svc = getService(slug);
+  if (svc?.special && svc.addOnFor?.length) {
+    return `/book?service=${svc.addOnFor[0]}&addon=${svc.slug}`;
+  }
+  return `/book?service=${slug}`;
 }
 
 export const services: ServicePackage[] = [
@@ -100,21 +119,6 @@ export const services: ServicePackage[] = [
     featured: true,
   },
   {
-    slug: "odor-treatment",
-    name: "Odor Treatment",
-    short: "Add-on to the Interior Detail: smells neutralized at the source.",
-    description:
-      "A full-cabin decontamination that eliminates odors instead of covering them. A chemical oxidation treatment reaches the vents, carpets and every surface the smell lives in. Always performed together with an Interior Detail service.",
-    duration: "1–2 hours",
-    pricing: { sedan: 55, coupe: 55, suv: 55, truck: 55 },
-    fromPrice: 55,
-    included: [
-      "Chemical oxidation treatment",
-      "Air freshener bars",
-    ],
-    note: "Add-on only: the Odor Treatment always requires an Interior Detail (or Full Detail) in the same appointment. It cannot be booked on its own.",
-  },
-  {
     slug: "wash-clay-seal",
     name: "Wash, Clay & Seal",
     short: "Deep-cleaned paint, decontaminated and sealed for months.",
@@ -128,6 +132,47 @@ export const services: ServicePackage[] = [
       "Full clay bar decontamination",
       "Exterior glass cleaned & sealed",
     ],
+  },
+  // ── Special services (add-ons) ──────────────────────────────────────
+  {
+    slug: "odor-treatment",
+    name: "Odor Treatment",
+    short: "Smoke, pets, spills: neutralized at the source, not masked.",
+    description:
+      "A full-cabin decontamination that eliminates odors instead of covering them. A chemical oxidation treatment reaches the vents, carpets and every surface the smell lives in.",
+    duration: "1–2 hours",
+    pricing: { sedan: 55, coupe: 55, suv: 55, truck: 55 },
+    fromPrice: 55,
+    included: ["Chemical oxidation treatment", "Air freshener bars"],
+    special: true,
+    addOnFor: ["interior-detail", "full-detail"],
+    note: "Added to an Interior Detail or Full Detail. It cannot be booked on its own.",
+  },
+  {
+    slug: "trim-restoration",
+    name: "Trim Restoration",
+    short: "Faded plastic trim brought back to deep, even black.",
+    description:
+      "Sun-bleached bumpers, mirror caps and wheel arches restored instead of dressed. We clean the trim down to bare plastic and bond a restorer that brings back the original color, then seal it against UV so it lasts.",
+    duration: "1–2 hours",
+    // TODO(owner): confirm this price.
+    pricing: { sedan: 45, coupe: 45, suv: 45, truck: 45 },
+    fromPrice: 45,
+    included: [
+      "Faded trim assessment",
+      "Deep clean & degrease of all plastic trim",
+      "Trim restorer bonded and cured",
+      "UV protectant for a lasting finish",
+      "Bumpers, mirror caps & wheel arches included",
+    ],
+    special: true,
+    addOnFor: [
+      "signature-exterior-detail",
+      "interior-detail",
+      "full-detail",
+      "wash-clay-seal",
+    ],
+    note: "Added to any detailing package. It cannot be booked on its own.",
   },
 ];
 

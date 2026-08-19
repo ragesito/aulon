@@ -7,7 +7,7 @@ import { rateLimit, clientIp } from "@/lib/rate-limit";
 import {
   getService,
   vehicleTypes,
-  ODOR_ADDON_ALLOWED,
+  addOnsFor,
   type VehicleType,
 } from "@/content/services";
 import { paymentsEnabled, createDepositSession } from "@/lib/stripe";
@@ -65,14 +65,16 @@ export async function createBooking(
   const vehicleLabel =
     vehicleTypes.find((v) => v.value === vehicle)?.label ?? vehicle;
 
-  // Odor Treatment add-on: only valid on interior services
-  const odorService = getService("odor-treatment");
-  const addOdor =
-    data.addOdor && ODOR_ADDON_ALLOWED.includes(service.slug) && !!odorService;
+  // Special-service add-ons: only those valid for the chosen base service
+  const allowed = addOnsFor(service.slug);
+  const requested = formData.getAll("addOns").map(String);
+  const addOns = allowed.filter((a) => requested.includes(a.slug));
+
   const priceQuoted =
-    service.pricing[vehicle] + (addOdor ? odorService!.pricing[vehicle] : 0);
-  const serviceName = addOdor
-    ? `${service.name} + Odor Treatment`
+    service.pricing[vehicle] +
+    addOns.reduce((sum, a) => sum + a.pricing[vehicle], 0);
+  const serviceName = addOns.length
+    ? `${service.name} + ${addOns.map((a) => a.name).join(" + ")}`
     : service.name;
 
   // ── Slot availability: keep a minimum gap between same-day jobs ─────

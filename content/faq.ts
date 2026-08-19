@@ -14,7 +14,7 @@ export interface FaqItem {
 export const faqs: FaqItem[] = [
   {
     q: "How do you remove smoke or pet odor from a car?",
-    a: "Masking sprays don't work; the smell lives in the carpets, headliner and HVAC system. Our odor treatment uses a chemical oxidation treatment that reaches inside the vents and every fabric, and it's always performed together with an Interior Detail so the source gets removed, not covered. The add-on is a flat $55 for any vehicle and takes 1 to 2 hours.",
+    a: "Masking sprays don't work; the smell lives in the carpets, headliner and HVAC system. Our odor treatment uses a chemical oxidation treatment that reaches inside the vents and every fabric, and it's always performed together with an Interior Detail so the source gets removed, not covered. The add-on is a flat $55 for any vehicle and takes 1 to 2 hours. It is one of our two special services, along with Trim Restoration for sun-faded plastic trim.",
   },
   {
     q: "Do you offer mobile detailing near Melrose Park?",

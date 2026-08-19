@@ -7,7 +7,7 @@ import ServiceCard from "@/components/ServiceCard";
 import GalleryGrid from "@/components/GalleryGrid";
 import Testimonials from "@/components/Testimonials";
 import CtaBand from "@/components/CtaBand";
-import { services } from "@/content/services";
+import { regularServices, specialServices } from "@/content/services";
 
 export const metadata: Metadata = {
   title: "Premium Car Detailing in Melrose Park, IL",
@@ -177,19 +177,23 @@ export default function HomePage() {
             sub="Five packages. Zero shortcuts. Every appointment finished to the same standard: ours."
           />
           <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {services.map((s, i) => (
+            {regularServices().map((s, i) => (
               <ServiceCard key={s.slug} service={s} delay={i * 100} />
             ))}
             <Reveal
-              delay={services.length * 100}
+              delay={regularServices().length * 100}
               className="flex flex-col items-center justify-center border border-dashed border-gold/30 p-8 text-center"
             >
-              <p className="text-lg font-bold text-ivory">Not sure what your car needs?</p>
-              <p className="mt-2 text-sm text-ivory-dim">
-                Send us a photo and we&apos;ll recommend the right package.
+              <p className="kicker">Special Services</p>
+              <p className="mt-3 text-lg font-bold text-ivory">
+                {specialServices().map((s) => s.name).join(" · ")}
               </p>
-              <Link href="/contact" className="btn-outline mt-6 !px-6 !py-3 !text-xs">
-                Ask Us
+              <p className="mt-2 text-sm text-ivory-dim">
+                Add-ons for the hard stuff: stubborn smells and sun-faded trim.
+                Added to any package.
+              </p>
+              <Link href="/services#odor-treatment" className="btn-outline mt-6 !px-6 !py-3 !text-xs">
+                See Add-ons
               </Link>
             </Reveal>
           </div>

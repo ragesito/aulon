@@ -4,10 +4,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import Link from "next/link";
 import {
-  services,
   vehicleTypes,
-  getService,
-  ODOR_ADDON_ALLOWED,
+  regularServices,
+  addOnsFor,
   type VehicleType,
 } from "@/content/services";
 import { TIME_SLOTS, slotConflicts } from "@/lib/validation";
@@ -39,29 +38,27 @@ function SubmitButton({ depositUsd }: { depositUsd?: number }) {
 
 export default function BookingForm({
   initialService,
-  initialOdor,
+  initialAddOn,
   depositUsd,
   paymentCanceled,
 }: {
   initialService?: string;
-  /** Preselect the Odor Treatment add-on */
-  initialOdor?: boolean;
+  /** Slug of a special service to preselect as add-on */
+  initialAddOn?: string;
   /** Deposit amount in USD when Stripe payments are enabled; undefined otherwise */
   depositUsd?: number;
   /** True when the user came back from an abandoned Stripe Checkout */
   paymentCanceled?: boolean;
 }) {
-  // The odor add-on is not bookable standalone; route it through Interior
-  const mappedInitial =
-    initialService === "odor-treatment" ? "interior-detail" : initialService;
-  const validInitial = services.some((s) => s.slug === mappedInitial)
-    ? mappedInitial!
+  const base = regularServices();
+  const validInitial = base.some((s) => s.slug === initialService)
+    ? initialService!
     : "";
 
   const [step, setStep] = useState(validInitial ? 1 : 0);
   const [serviceSlug, setServiceSlug] = useState(validInitial);
-  const [addOdor, setAddOdor] = useState(
-    !!(initialOdor || initialService === "odor-treatment")
+  const [addOns, setAddOns] = useState<string[]>(
+    initialAddOn ? [initialAddOn] : []
   );
   const [vehicleType, setVehicleType] = useState<VehicleType | "">("");
   const [date, setDate] = useState("");
@@ -119,19 +116,29 @@ export default function BookingForm({
   }, [takenSlots]);
 
   const service = useMemo(
-    () => services.find((s) => s.slug === serviceSlug),
+    () => base.find((s) => s.slug === serviceSlug),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [serviceSlug]
   );
-  const odorAllowed = ODOR_ADDON_ALLOWED.includes(serviceSlug);
-  const odorService = getService("odor-treatment");
-  const odorPrice =
-    odorAllowed && addOdor && odorService && vehicleType
-      ? odorService.pricing[vehicleType as VehicleType]
+  const availableAddOns = useMemo(() => addOnsFor(serviceSlug), [serviceSlug]);
+  const chosenAddOns = availableAddOns.filter((a) => addOns.includes(a.slug));
+  const addOnTotal =
+    vehicleType
+      ? chosenAddOns.reduce(
+          (sum, a) => sum + a.pricing[vehicleType as VehicleType],
+          0
+        )
       : 0;
   const price =
     service && vehicleType
-      ? service.pricing[vehicleType as VehicleType] + odorPrice
+      ? service.pricing[vehicleType as VehicleType] + addOnTotal
       : null;
+
+  function toggleAddOn(slug: string) {
+    setAddOns((prev) =>
+      prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug]
+    );
+  }
 
   const fieldErrors = result?.fieldErrors ?? {};
 
@@ -224,7 +231,9 @@ export default function BookingForm({
         <input type="hidden" name="vehicleType" value={vehicleType} />
         <input type="hidden" name="date" value={date} />
         <input type="hidden" name="timeSlot" value={timeSlot} />
-        <input type="hidden" name="addOdor" value={odorAllowed && addOdor ? "true" : ""} />
+        {chosenAddOns.map((a) => (
+          <input key={a.slug} type="hidden" name="addOns" value={a.slug} />
+        ))}
         <input type="hidden" name="startedAt" value={startedAt} />
         {/* Honeypot — hidden from real users */}
         <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
@@ -239,7 +248,7 @@ export default function BookingForm({
           <fieldset>
             <legend className="sr-only">Choose a service package</legend>
             <div className="grid gap-3 sm:grid-cols-2">
-              {services.filter((s) => s.slug !== "odor-treatment").map((s) => (
+              {base.map((s) => (
                 <button
                   key={s.slug}
                   type="button"
@@ -420,26 +429,30 @@ export default function BookingForm({
               {fieldErrors.notes && <span className="field-error">{fieldErrors.notes}</span>}
             </div>
 
-            {/* Odor Treatment add-on (only with interior services) */}
-            {odorAllowed && odorService && (
-              <div className="flex items-start gap-3 border border-ink-line bg-ink-soft p-4">
-                <input
-                  id="bk-odor"
-                  type="checkbox"
-                  checked={addOdor}
-                  onChange={(e) => setAddOdor(e.target.checked)}
-                  className="mt-0.5 h-5 w-5 accent-[#daa520]"
-                />
-                <label htmlFor="bk-odor" className="text-sm text-ivory">
-                  Add Odor Treatment{" "}
-                  <span className="font-bold text-gold">
-                    +${vehicleType ? odorService.pricing[vehicleType as VehicleType] : odorService.fromPrice}
-                  </span>
-                  <span className="block text-xs text-ivory-dim">
-                    Chemical oxidation treatment that removes smoke, pet and
-                    spill odors at the source. Adds 1–2 hours.
-                  </span>
-                </label>
+            {/* Special services you can add to this package */}
+            {availableAddOns.length > 0 && (
+              <div className="border border-ink-line bg-ink-soft p-4">
+                <p className="kicker mb-3">Special services</p>
+                <div className="space-y-3">
+                  {availableAddOns.map((a) => (
+                    <label key={a.slug} htmlFor={`bk-${a.slug}`} className="flex items-start gap-3">
+                      <input
+                        id={`bk-${a.slug}`}
+                        type="checkbox"
+                        checked={addOns.includes(a.slug)}
+                        onChange={() => toggleAddOn(a.slug)}
+                        className="mt-0.5 h-5 w-5 shrink-0 accent-[#daa520]"
+                      />
+                      <span className="text-sm text-ivory">
+                        Add {a.name}{" "}
+                        <span className="font-bold text-gold">
+                          +${vehicleType ? a.pricing[vehicleType as VehicleType] : a.fromPrice}
+                        </span>
+                        <span className="block text-xs text-ivory-dim">{a.short}</span>
+                      </span>
+                    </label>
+                  ))}
+                </div>
               </div>
             )}
 
@@ -449,12 +462,14 @@ export default function BookingForm({
                 <p className="kicker mb-3">Your request</p>
                 <dl className="space-y-1.5 text-ivory-dim">
                   <div className="flex justify-between"><dt>Service</dt><dd className="text-ivory">{service.name}</dd></div>
-                  {odorAllowed && addOdor && odorService && (
-                    <div className="flex justify-between">
+                  {chosenAddOns.map((a) => (
+                    <div key={a.slug} className="flex justify-between">
                       <dt>Add-on</dt>
-                      <dd className="text-ivory">Odor Treatment (+${odorService.pricing[vehicleType as VehicleType]})</dd>
+                      <dd className="text-ivory">
+                        {a.name} (+${a.pricing[vehicleType as VehicleType]})
+                      </dd>
                     </div>
-                  )}
+                  ))}
                   <div className="flex justify-between"><dt>Vehicle</dt><dd className="text-ivory">{vehicleTypes.find((v) => v.value === vehicleType)?.label}</dd></div>
                   <div className="flex justify-between"><dt>Date</dt><dd className="text-ivory">{date} · {timeSlot}</dd></div>
                   <div className="flex justify-between border-t border-ink-line pt-2">

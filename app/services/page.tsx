@@ -5,7 +5,7 @@ import SectionHeading from "@/components/SectionHeading";
 import CtaBand from "@/components/CtaBand";
 import JsonLd from "@/components/JsonLd";
 import { faqSchema, breadcrumbSchema } from "@/lib/schema";
-import { services, vehicleTypes, bookHref } from "@/content/services";
+import { regularServices, specialServices, vehicleTypes, bookHref } from "@/content/services";
 import { faqs } from "@/content/faq";
 
 export const metadata: Metadata = {
@@ -29,7 +29,7 @@ export default function ServicesPage() {
 
           {/* TODO(owner): all prices are placeholders — confirm in content/services.ts */}
           <div className="mt-16 space-y-16">
-            {services.map((s, idx) => (
+            {regularServices().map((s, idx) => (
               <Reveal
                 as="article"
                 key={s.slug}
@@ -97,6 +97,56 @@ export default function ServicesPage() {
               </Reveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── Special services ─────────────────────────────────── */}
+      <section aria-label="Special services" className="border-t border-ink-line bg-ink-soft">
+        <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+          <SectionHeading
+            kicker="Special Services"
+            title="Add-ons that fix the hard stuff"
+            sub="Added to any detailing package above, never booked on their own."
+          />
+          <Reveal className="mt-14">
+            <div className="grid divide-y divide-ink-line border border-gold/30 bg-ink md:grid-cols-2 md:divide-x md:divide-y-0">
+              {specialServices().map((s) => (
+                <div key={s.slug} id={s.slug} className="scroll-mt-28 flex flex-col p-8 sm:p-10">
+                  <div className="flex items-baseline justify-between gap-4">
+                    <h3 className="text-xl font-bold text-ivory sm:text-2xl">{s.name}</h3>
+                    <span className="whitespace-nowrap text-2xl font-bold text-gold">
+                      +${s.fromPrice}
+                    </span>
+                  </div>
+                  <p className="mt-3 text-sm leading-relaxed text-ivory-dim">
+                    {s.description}
+                  </p>
+                  <p className="mt-3 text-xs uppercase tracking-widest text-ivory-dim/60">
+                    Duration: {s.duration}
+                  </p>
+
+                  <h4 className="kicker mt-6">What&apos;s included</h4>
+                  <ul className="mt-3 flex-1 space-y-2">
+                    {s.included.map((item) => (
+                      <li key={item} className="flex items-start gap-2.5 text-sm text-ivory">
+                        <svg viewBox="0 0 20 20" className="mt-0.5 h-4 w-4 shrink-0 fill-gold" aria-hidden="true">
+                          <path d="M7.6 13.2L4.4 10l-1.3 1.3 4.5 4.5 9.3-9.3-1.3-1.3z" />
+                        </svg>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+
+                  {s.note && (
+                    <p className="mt-4 text-xs text-ivory-dim/60">{s.note}</p>
+                  )}
+                  <Link href={bookHref(s.slug)} className="btn-outline mt-6 w-full">
+                    Add {s.name}
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </Reveal>
         </div>
       </section>
 
