@@ -10,7 +10,7 @@ import CtaBand from "@/components/CtaBand";
 import { regularServices, specialServices } from "@/content/services";
 
 export const metadata: Metadata = {
-  title: "Premium Car Detailing in Melrose Park, IL",
+  title: { absolute: "Aulon Detailing | Premium Car Detailing in Melrose Park, IL" },
   description:
     "Your car, showroom new. Premium auto detailing in Melrose Park, IL: interior & exterior details, odor treatment and mobile detailing across the surrounding areas. Book online.",
   alternates: { canonical: "/" },

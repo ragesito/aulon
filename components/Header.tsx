@@ -50,12 +50,12 @@ export default function Header() {
           <Link
             href="/"
             className="flex items-center gap-3"
-            aria-label={`${site.name} home`}
+            aria-label={site.name}
             onClick={() => setOpen(false)}
           >
             <Image
               src="/logo/aulon.svg"
-              alt={`${site.name} logo`}
+              alt={site.name}
               width={186}
               height={60}
               priority

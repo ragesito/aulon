@@ -51,7 +51,7 @@ export default function AboutPage() {
             <Reveal delay={200} className="flex items-center justify-center border border-ink-line bg-ink-soft p-14">
               <Image
                 src="/logo/aulon.svg"
-                alt="Aulon Detailing gold wordmark logo"
+                alt="Aulon Detailing"
                 width={420}
                 height={136}
                 className="h-auto w-full max-w-sm"

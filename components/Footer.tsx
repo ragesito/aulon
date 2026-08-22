@@ -13,7 +13,7 @@ export default function Footer() {
           <div>
             <Image
               src="/logo/aulon.svg"
-              alt={`${site.name} logo`}
+              alt={site.name}
               width={217}
               height={70}
               className="h-14 w-auto"
