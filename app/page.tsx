@@ -100,8 +100,9 @@ export default function HomePage() {
               className="mx-auto mt-7 max-w-xl animate-rise text-base leading-relaxed text-ivory/90 sm:text-lg lg:mx-0"
               style={{ animationDelay: "240ms" }}
             >
-              Hand-finished details, odor treatment and lasting paint protection.
-              At our studio or <span className="font-semibold text-ivory">right in your driveway</span>.
+              Hand-finished detailing, deep interior care, odor treatment and
+              lasting protection, all delivered{" "}
+              <span className="font-semibold text-ivory">right to your driveway</span>.
               By appointment only.
             </p>
 

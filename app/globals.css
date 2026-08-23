@@ -123,6 +123,12 @@
 }
 
 @layer utilities {
+
+  /* Intro overlay: server-rendered, so it covers the page from the first
+     paint. Hidden instantly on repeat views within the same session. */
+  [data-intro="seen"] .intro-overlay {
+    display: none;
+  }
   /* Reveal-on-scroll: elements start hidden, .revealed animates them in.
      Content only — backgrounds are always static. */
   .reveal {
@@ -141,6 +147,9 @@
       opacity: 1;
       transform: none;
       transition: none;
+    }
+    .intro-overlay {
+      display: none;
     }
     .text-gold-sheen,
     .animate-rise,
