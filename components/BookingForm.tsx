@@ -276,7 +276,7 @@ export default function BookingForm({
         {step === 1 && (
           <fieldset>
             <legend className="sr-only">Choose your vehicle type</legend>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
               {vehicleTypes.map((v) => (
                 <button
                   key={v.value}

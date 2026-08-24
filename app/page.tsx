@@ -181,7 +181,7 @@ export default function HomePage() {
             {regularServices().map((s, i) => (
               <ServiceCard key={s.slug} service={s} delay={i * 100} />
             ))}
-            {specialServices().map((s, i) => (
+            {specialServices().filter((s) => !s.standalone).map((s, i) => (
               <ServiceCard
                 key={s.slug}
                 service={s}

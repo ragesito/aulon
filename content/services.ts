@@ -4,19 +4,18 @@
  *  Edit prices/inclusions here. Everything (services page, booking form,
  *  structured data, sitemap) reads from this file.
  *
- *  PRICING NOTES:
- *  - Basic Detail prices ($45/$55/$65) are the owner's confirmed prices.
- *  - All other packages were scaled to the same price level using the
- *    owner's vehicle-size ratios (SUV +22%, truck +44%).
- *  - TODO(owner): confirm the derived prices (everything except Basic).
+ *  PRICING: confirmed by the owner. Sedan and coupe share a price, so they
+ *  are offered as a single "Sedan / Coupe" choice.
  * ─────────────────────────────────────────────────────────────────────────
  */
 
 export type VehicleType = "sedan" | "coupe" | "suv" | "truck";
 
+/** Sedan and coupe always cost the same, so they are offered as one choice.
+ *  "coupe" stays in the type/pricing for backwards compatibility with
+ *  bookings taken before they were merged. */
 export const vehicleTypes: { value: VehicleType; label: string }[] = [
-  { value: "sedan", label: "Sedan" },
-  { value: "coupe", label: "Coupe" },
+  { value: "sedan", label: "Sedan / Coupe" },
   { value: "suv", label: "SUV / Crossover" },
   { value: "truck", label: "Truck / Van" },
 ];
@@ -39,11 +38,14 @@ export interface ServicePackage {
   special?: boolean;
   /** Base service slugs this can be added to (special services only) */
   addOnFor?: string[];
+  /** A special service that can ALSO be booked on its own */
+  standalone?: boolean;
 }
 
-/** The four core packages, shown in the main services list */
+/** Packages shown in the main services list (add-ons appear here too when
+ *  they can be booked on their own) */
 export function regularServices(): ServicePackage[] {
-  return services.filter((s) => !s.special);
+  return services.filter((s) => !s.special || s.standalone);
 }
 
 /** Add-on services, shown in the "Special Services" section */
@@ -56,13 +58,20 @@ export function addOnsFor(baseSlug: string): ServicePackage[] {
   return specialServices().filter((s) => s.addOnFor?.includes(baseSlug));
 }
 
-/** Book link: special services book through a base service with the add-on preselected */
+/** Book link. Add-ons that cannot stand alone are routed through a base
+ *  service with the add-on preselected. */
 export function bookHref(slug: string): string {
   const svc = getService(slug);
-  if (svc?.special && svc.addOnFor?.length) {
+  if (svc?.special && !svc.standalone && svc.addOnFor?.length) {
     return `/book?service=${svc.addOnFor[0]}&addon=${svc.slug}`;
   }
   return `/book?service=${slug}`;
+}
+
+/** Link that books a special service AS an add-on of its first base service */
+export function addOnHref(svc: ServicePackage): string {
+  const base = svc.addOnFor?.[0];
+  return base ? `/book?service=${base}&addon=${svc.slug}` : `/book?service=${svc.slug}`;
 }
 
 export const services: ServicePackage[] = [
@@ -71,10 +80,10 @@ export const services: ServicePackage[] = [
     name: "Signature Exterior Detail",
     short: "The signature hand wash, finished like a detail.",
     description:
-      "Our signature exterior service, done the Aulon way. A careful pH-balanced hand wash inside a full routine: wheels, jambs, glass and a final inspection so nothing leaves half-done.",
+      "The signature hand wash, finished like a detail. A careful pH-balanced hand wash inside a full routine: wheels, jambs, glass and a final inspection so nothing leaves half-done.",
     duration: "1–1.5 hours",
-    pricing: { sedan: 45, coupe: 45, suv: 55, truck: 65 },
-    fromPrice: 45,
+    pricing: { sedan: 55, coupe: 55, suv: 65, truck: 75 },
+    fromPrice: 55,
     included: [
       "Pre-wash & premium hand wash (pH-balanced shampoo)",
       "Wheels, tires & wheel wells cleaned and protected",
@@ -92,15 +101,15 @@ export const services: ServicePackage[] = [
     description:
       "A complete interior reset. Every surface vacuumed, brushed and protected.",
     duration: "1–2 hours",
-    pricing: { sedan: 60, coupe: 60, suv: 75, truck: 90 },
-    fromPrice: 60,
+    pricing: { sedan: 65, coupe: 65, suv: 75, truck: 85 },
+    fromPrice: 65,
     included: [
       "Full interior vacuum incl. trunk",
       "Dash, console & trim detailed",
-      "Interior glass streak-free",
+      "Exterior & interior windows, streak-free",
       "Air vents & crevices brushed out",
     ],
-    note: "Heavily soiled interiors may carry a $10 surcharge, at the detailer's discretion. We always confirm it with you before starting.",
+    note: "Heavily soiled interiors may carry a $15 surcharge, at the detailer's discretion. We always confirm it with you before starting.",
   },
   {
     slug: "full-detail",
@@ -109,9 +118,8 @@ export const services: ServicePackage[] = [
     description:
       "The complete package. The Signature Exterior Detail and the Interior Detail combined in a single appointment. The closest thing to a brand-new car.",
     duration: "2–4 hours",
-    // Price = Signature Exterior Detail + Interior Detail
-    pricing: { sedan: 105, coupe: 105, suv: 130, truck: 155 },
-    fromPrice: 105,
+    pricing: { sedan: 120, coupe: 120, suv: 140, truck: 160 },
+    fromPrice: 120,
     included: [
       "Everything in Signature Exterior Detail",
       "Everything in Interior Detail",
@@ -125,8 +133,8 @@ export const services: ServicePackage[] = [
     description:
       "The right reset for your paint. A meticulous hand wash, a full clay bar decontamination that pulls out embedded grime, and a durable spray sealant that locks in gloss and protection for months.",
     duration: "2–3 hours",
-    pricing: { sedan: 69, coupe: 69, suv: 85, truck: 99 },
-    fromPrice: 69,
+    pricing: { sedan: 90, coupe: 90, suv: 105, truck: 120 },
+    fromPrice: 90,
     included: [
       "Foam pre-wash & two-bucket hand wash",
       "Full clay bar decontamination",
@@ -155,9 +163,8 @@ export const services: ServicePackage[] = [
     description:
       "Sun-bleached bumpers, mirror caps and wheel arches restored instead of dressed. We clean the trim down to bare plastic and bond a restorer that brings back the original color, then seal it against UV so it lasts.",
     duration: "1–2 hours",
-    // TODO(owner): confirm this price.
-    pricing: { sedan: 45, coupe: 45, suv: 45, truck: 45 },
-    fromPrice: 45,
+    pricing: { sedan: 55, coupe: 55, suv: 55, truck: 55 },
+    fromPrice: 55,
     included: [
       "Faded trim assessment",
       "Deep clean & degrease of all plastic trim",
@@ -166,13 +173,14 @@ export const services: ServicePackage[] = [
       "Bumpers, mirror caps & wheel arches included",
     ],
     special: true,
+    standalone: true,
     addOnFor: [
       "signature-exterior-detail",
       "interior-detail",
       "full-detail",
       "wash-clay-seal",
     ],
-    note: "Added to any detailing package. It cannot be booked on its own.",
+    note: "Book it on its own, or add it to any detailing package.",
   },
 ];
 

@@ -6,7 +6,7 @@ import CtaBand from "@/components/CtaBand";
 import JsonLd from "@/components/JsonLd";
 import { faqSchema, breadcrumbSchema } from "@/lib/schema";
 import ServicesView from "@/components/ServicesView";
-import { specialServices, bookHref } from "@/content/services";
+import { specialServices, addOnHref } from "@/content/services";
 import { faqs } from "@/content/faq";
 
 export const metadata: Metadata = {
@@ -38,7 +38,7 @@ export default function ServicesPage() {
           <SectionHeading
             kicker="Special Services"
             title="Add-ons that fix the hard stuff"
-            sub="Added to any detailing package above, never booked on their own."
+            sub="Add them to any package above. Trim Restoration can also be booked on its own."
           />
           <Reveal className="mt-14">
             <div className="grid divide-y divide-ink-line border border-gold/30 bg-ink md:grid-cols-2 md:divide-x md:divide-y-0">
@@ -72,7 +72,7 @@ export default function ServicesPage() {
                   {s.note && (
                     <p className="mt-4 text-xs text-ivory-dim/60">{s.note}</p>
                   )}
-                  <Link href={bookHref(s.slug)} className="btn-outline mt-6 w-full">
+                  <Link href={addOnHref(s)} className="btn-outline mt-6 w-full">
                     Add {s.name}
                   </Link>
                 </div>
