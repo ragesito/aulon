@@ -92,7 +92,16 @@ export default function Footer() {
 
         <div className="mt-6 flex flex-col items-center justify-between gap-3 text-xs text-ivory-dim/70 sm:flex-row">
           <p>
-            © {new Date().getFullYear()} {site.legalName}. All rights reserved.
+            © {new Date().getFullYear()} {site.legalName}. All rights reserved.{" "}
+            · Site by{" "}
+            <a
+              href="https://fentriq.app"
+              target="_blank"
+              rel="noopener"
+              className="font-semibold text-ivory-dim transition-colors hover:text-gold"
+            >
+              Fentriq
+            </a>
           </p>
           <p>
             {site.city}, {site.state} · Premium Auto Detailing
