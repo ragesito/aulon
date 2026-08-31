@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import SectionHeading from "@/components/SectionHeading";
 import GalleryGrid from "@/components/GalleryGrid";
+import BeforeAfter from "@/components/BeforeAfter";
+import { beforeAfter } from "@/content/gallery";
 import CtaBand from "@/components/CtaBand";
 import Reveal from "@/components/Reveal";
 import JsonLd from "@/components/JsonLd";
@@ -24,7 +26,15 @@ export default function GalleryPage() {
             title="Proof, not promises"
             sub="Filter by service to see the transformations. New work added after every appointment."
           />
-          <Reveal className="mt-14">
+          {beforeAfter.length > 0 && (
+            <Reveal className="mx-auto mt-14 max-w-3xl">
+              {beforeAfter.map((pair) => (
+                <BeforeAfter key={pair.id} pair={pair} />
+              ))}
+            </Reveal>
+          )}
+
+          <Reveal className="mt-16">
             <GalleryGrid />
           </Reveal>
         </div>

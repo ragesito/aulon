@@ -5,6 +5,8 @@ import HeroVideo from "@/components/HeroVideo";
 import SectionHeading from "@/components/SectionHeading";
 import ServiceCard from "@/components/ServiceCard";
 import GalleryGrid from "@/components/GalleryGrid";
+import BeforeAfter from "@/components/BeforeAfter";
+import { beforeAfter } from "@/content/gallery";
 import Testimonials from "@/components/Testimonials";
 import CtaBand from "@/components/CtaBand";
 import { regularServices, specialServices } from "@/content/services";
@@ -200,8 +202,14 @@ export default function HomePage() {
             title="The work speaks"
             sub="Real transformations from recent appointments. Full gallery updated weekly."
           />
-          <Reveal className="mt-14">
-            <GalleryGrid showFilters={false} limit={6} />
+          {beforeAfter.length > 0 && (
+            <Reveal className="mx-auto mt-14 max-w-3xl">
+              <BeforeAfter pair={beforeAfter[0]} />
+            </Reveal>
+          )}
+
+          <Reveal className="mt-16">
+            <GalleryGrid showFilters={false} limit={3} />
           </Reveal>
           <Reveal className="mt-10 text-center">
             <Link href="/gallery" className="btn-outline">

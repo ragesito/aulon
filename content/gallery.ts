@@ -29,11 +29,36 @@ export const galleryCategories: { value: GalleryCategory | "all"; label: string 
   { value: "odor", label: "Odor Treatment" },
 ];
 
+/** Drag-to-compare pairs, shown above the grid. Both photos must be the
+ *  same shot of the same car, before and after. */
+export interface BeforeAfterPair {
+  id: string;
+  before: string;
+  after: string;
+  beforeAlt: string;
+  afterAlt: string;
+  title: string;
+  service: string;
+}
+
+export const beforeAfter: BeforeAfterPair[] = [
+  {
+    id: "interior-sedan",
+    before: "/gallery/interior-before.jpg",
+    after: "/gallery/interior-after.jpg",
+    beforeAlt:
+      "Rear seats and carpets covered in crumbs and dust before an interior detail in Melrose Park IL",
+    afterAlt:
+      "The same rear seats and carpets spotless after a full interior detail in Melrose Park IL",
+    title: "Rear cabin, brought back",
+    service: "Interior Detail",
+  },
+];
+
 export const gallery: GalleryItem[] = [
-  { id: "int-1", category: "interior", src: null, alt: "Deep-cleaned leather interior after a full interior detail on an SUV in Melrose Park IL", label: "Interior Detail · SUV" },
+  // ── Placeholders: swap src for a real photo as work comes in ─────────
   { id: "ext-1", category: "exterior", src: null, alt: "Glossy black paint after a signature exterior detail on a sedan in Melrose Park IL", label: "Signature Exterior · Sedan" },
   { id: "odo-1", category: "odor", src: null, alt: "Fresh, sanitized cabin after a full odor treatment on a coupe in Melrose Park IL", label: "Odor Treatment · Coupe" },
-  { id: "int-2", category: "interior", src: null, alt: "Steam-cleaned carpets and restored console after an interior detail on a truck in the surrounding areas", label: "Interior Detail · Truck" },
   { id: "ext-2", category: "exterior", src: null, alt: "Wheels and tires deep-cleaned and dressed after a signature exterior detail on an SUV in Melrose Park IL", label: "Signature Exterior · SUV" },
   { id: "odo-2", category: "odor", src: null, alt: "Steam-sanitized seats and carpets after smoke odor removal on a sedan in Chicago IL", label: "Smoke Odor Removal · Sedan" },
   { id: "int-3", category: "interior", src: null, alt: "Spotless dashboard and vents after interior detailing on a coupe in Melrose Park IL", label: "Interior Detail · Coupe" },
