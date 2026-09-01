@@ -68,6 +68,27 @@ export const beforeAfter: BeforeAfterPair[] = [
   },
 ];
 
+/** Short walkthrough clips of finished cars (muted, looping). */
+export interface ResultClipItem {
+  id: string;
+  src: string;
+  poster: string;
+  title: string;
+  service: string;
+  caption: string;
+}
+
+export const resultClips: ResultClipItem[] = [
+  {
+    id: "interior-cadillac",
+    src: "/gallery/interior-result.mp4",
+    poster: "/gallery/interior-result-poster.jpg",
+    title: "How every car leaves",
+    service: "Interior Detail",
+    caption: "A walkthrough of the finished cabin",
+  },
+];
+
 export const gallery: GalleryItem[] = [
   // ── Placeholders: swap src for a real photo as work comes in ─────────
   { id: "ext-1", category: "exterior", src: null, alt: "Glossy black paint after a signature exterior detail on a sedan in Melrose Park IL", label: "Signature Exterior · Sedan" },

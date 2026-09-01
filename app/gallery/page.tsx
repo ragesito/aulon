@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import SectionHeading from "@/components/SectionHeading";
 import GalleryGrid from "@/components/GalleryGrid";
 import BeforeAfter from "@/components/BeforeAfter";
-import { beforeAfter } from "@/content/gallery";
+import ResultClip from "@/components/ResultClip";
+import { beforeAfter, resultClips } from "@/content/gallery";
 import CtaBand from "@/components/CtaBand";
 import Reveal from "@/components/Reveal";
 import JsonLd from "@/components/JsonLd";
@@ -26,15 +27,21 @@ export default function GalleryPage() {
             title="Proof, not promises"
             sub="Filter by service to see the transformations. New work added after every appointment."
           />
-          {beforeAfter.length > 0 && (
-            <Reveal className="mx-auto mt-14 max-w-3xl">
-              {beforeAfter.map((pair) => (
-                <BeforeAfter key={pair.id} pair={pair} />
-              ))}
-            </Reveal>
-          )}
+          {/* Showcase: comparison slider and finished-result clip, side by side */}
+          <Reveal className="mt-14">
+            <div className="grid items-start gap-10 lg:grid-cols-[2.37fr_1fr] lg:gap-12">
+              {beforeAfter.length > 0 && (
+                <BeforeAfter pair={beforeAfter[0]} />
+              )}
+              {resultClips.length > 0 && (
+                <div className="mx-auto w-full max-w-[320px] lg:max-w-none">
+                  <ResultClip clip={resultClips[0]} />
+                </div>
+              )}
+            </div>
+          </Reveal>
 
-          <Reveal className="mt-16">
+          <Reveal className="mt-20">
             <GalleryGrid />
           </Reveal>
         </div>
