@@ -33,3 +33,7 @@ next-env.d.ts
 # cloudflare
 .open-next/
 .wrangler/
+
+# Raw client photos/video (working files, not site assets).
+# Processed versions live in public/gallery/.
+media/source-photos/

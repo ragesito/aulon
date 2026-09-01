@@ -6,6 +6,19 @@
  *   2. Add an entry below with src "/gallery/your-file.jpg"
  *  Placeholders (src: null) render as branded placeholder tiles until then.
  *
+ *  HOW TO SHOOT A BEFORE/AFTER PAIR (owner guide)
+ *  The slider only works when both photos share the SAME framing, so:
+ *   1. Shoot the "before" BEFORE touching the car (interior front, interior
+ *      rear, trunk, and the dirtiest spot).
+ *   2. Note where you stood: use a fixed reference (open door frame, B-pillar).
+ *      Tip: open the "before" photo on your phone right before shooting the
+ *      "after" so you can match it.
+ *   3. Same height, same distance, same side.
+ *   4. Same light: same parking spot, avoid sun on one and shade on the other.
+ *   5. Nothing in frame on the "after": no towels, brushes or trash.
+ *   6. Landscape orientation whenever possible: it fits the site better.
+ *
+ *  Then drop both files in /public/gallery/ and add an entry to `beforeAfter`.
  *  TODO(owner): replace placeholders with real before/after photos.
  * ─────────────────────────────────────────────────────────────────────────
  */
