@@ -3,7 +3,8 @@ import SectionHeading from "@/components/SectionHeading";
 import GalleryGrid from "@/components/GalleryGrid";
 import BeforeAfter from "@/components/BeforeAfter";
 import ResultClip from "@/components/ResultClip";
-import { beforeAfter, resultClips } from "@/content/gallery";
+import BeforeAfterClips from "@/components/BeforeAfterClips";
+import { beforeAfter, beforeAfterClips, resultClips } from "@/content/gallery";
 import CtaBand from "@/components/CtaBand";
 import Reveal from "@/components/Reveal";
 import JsonLd from "@/components/JsonLd";
@@ -27,19 +28,33 @@ export default function GalleryPage() {
             title="Proof, not promises"
             sub="Filter by service to see the transformations. New work added after every appointment."
           />
-          {/* Showcase: comparison slider and finished-result clip, side by side */}
-          <Reveal className="mt-14">
-            <div className="grid items-start gap-10 lg:grid-cols-[2.37fr_1fr] lg:gap-12">
-              {beforeAfter.length > 0 && (
+          {/* Showcase: photo slider on top, then a row of three aligned
+              portrait clips (before | after | finished) sharing its edges */}
+          {beforeAfter.length > 0 && (
+            <Reveal className="mt-14">
+              <div className="mx-auto w-full max-w-4xl">
                 <BeforeAfter pair={beforeAfter[0]} />
-              )}
-              {resultClips.length > 0 && (
-                <div className="mx-auto w-full max-w-[320px] lg:max-w-none">
-                  <ResultClip clip={resultClips[0]} />
-                </div>
-              )}
-            </div>
-          </Reveal>
+              </div>
+            </Reveal>
+          )}
+
+          {(beforeAfterClips.length > 0 || resultClips.length > 0) && (
+            <Reveal className="mt-16">
+              <div className="mx-auto grid w-full max-w-4xl items-start gap-x-4 gap-y-12 sm:grid-cols-3">
+                {beforeAfterClips.length > 0 && (
+                  <BeforeAfterClips
+                    pair={beforeAfterClips[0]}
+                    className="sm:col-span-2"
+                  />
+                )}
+                {resultClips.length > 0 && (
+                  <div className="mx-auto w-full max-w-[320px] sm:max-w-none">
+                    <ResultClip clip={resultClips[0]} />
+                  </div>
+                )}
+              </div>
+            </Reveal>
+          )}
 
           <Reveal className="mt-20">
             <GalleryGrid />

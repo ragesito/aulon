@@ -68,6 +68,38 @@ export const beforeAfter: BeforeAfterPair[] = [
   },
 ];
 
+/** Before/after video pairs: two walkthrough clips of the same car, shown
+ *  side by side. Shoot both from the same door with the same sweep. */
+export interface BeforeAfterClipPair {
+  id: string;
+  before: string;
+  after: string;
+  beforePoster: string;
+  afterPoster: string;
+  beforeAlt: string;
+  afterAlt: string;
+  title: string;
+  service: string;
+  caption: string;
+}
+
+export const beforeAfterClips: BeforeAfterClipPair[] = [
+  {
+    id: "rear-cabin-clips",
+    before: "/gallery/clip-before.mp4",
+    after: "/gallery/clip-after.mp4",
+    beforePoster: "/gallery/clip-before-poster.jpg",
+    afterPoster: "/gallery/clip-after-poster.jpg",
+    beforeAlt:
+      "Rear footwell and seatbacks covered in dust and debris before an interior detail in Melrose Park IL",
+    afterAlt:
+      "The same rear footwell and seatbacks spotless after a full interior detail in Melrose Park IL",
+    title: "Same cabin, on video",
+    service: "Interior Detail",
+    caption: "Two walkthroughs of the same rear cabin — before and after",
+  },
+];
+
 /** Short walkthrough clips of finished cars (muted, looping). */
 export interface ResultClipItem {
   id: string;
